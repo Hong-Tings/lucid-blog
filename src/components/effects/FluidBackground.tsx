@@ -15,31 +15,33 @@ export default function FluidBackground({ delaySplash = false }: Props) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+
     // --- Config ---
     const config = {
-      SIM_RESOLUTION: 128,
-      DYE_RESOLUTION: 1024,
+      SIM_RESOLUTION: isMobile ? 64 : 128,
+      DYE_RESOLUTION: isMobile ? 256 : 1024,
       CAPTURE_RESOLUTION: 512,
       DENSITY_DISSIPATION: 0.6,
       VELOCITY_DISSIPATION: 0.08,
       PRESSURE: 0.8,
-      PRESSURE_ITERATIONS: 20,
+      PRESSURE_ITERATIONS: isMobile ? 10 : 20,
       CURL: 30,
       SPLAT_RADIUS: 0.25,
       SPLAT_FORCE: 6000,
-      SHADING: true,
+      SHADING: !isMobile,
       COLORFUL: true,
       COLOR_UPDATE_SPEED: 10,
       PAUSED: false,
       BACK_COLOR: { r: 0, g: 0, b: 0 },
       TRANSPARENT: false,
-      BLOOM: true,
+      BLOOM: !isMobile,
       BLOOM_ITERATIONS: 8,
       BLOOM_RESOLUTION: 256,
       BLOOM_INTENSITY: 0.4,
       BLOOM_THRESHOLD: 0.6,
       BLOOM_SOFT_KNEE: 0.7,
-      SUNRAYS: true,
+      SUNRAYS: !isMobile,
       SUNRAYS_RESOLUTION: 196,
       SUNRAYS_WEIGHT: 1.0,
     };
@@ -838,9 +840,24 @@ export default function FluidBackground({ delaySplash = false }: Props) {
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerup', onPointerUp);
 
+    // WebGL context lost recovery
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      cancelAnimationFrame(animationId);
+      clearInterval(autoSplatId);
+    };
+    const onContextRestored = () => {
+      resizeCanvas();
+      initFramebuffers();
+      animationId = requestAnimationFrame(update);
+    };
+    canvas.addEventListener('webglcontextlost', onContextLost);
+    canvas.addEventListener('webglcontextrestored', onContextRestored);
+
     // --- Init & loop ---
     let lastUpdateTime = Date.now();
     let animationId: number;
+    let autoSplatId: ReturnType<typeof setInterval>;
 
     function update() {
       const now = Date.now();
@@ -867,10 +884,9 @@ export default function FluidBackground({ delaySplash = false }: Props) {
     initFramebuffers();
 
     // Auto-flow: periodic splats at random positions
-    let autoSplatId: ReturnType<typeof setInterval>;
     const startAutoFlow = () => {
       autoSplatId = setInterval(() => {
-        const count = Math.floor(Math.random() * 3) + 2; // 2-4 个
+        const count = isMobile ? 1 : Math.floor(Math.random() * 3) + 2;
         for (let i = 0; i < count; i++) {
           const color = generateColor();
           color.r *= 10.0; color.g *= 10.0; color.b *= 10.0;
@@ -880,12 +896,12 @@ export default function FluidBackground({ delaySplash = false }: Props) {
           const force = 300 + Math.random() * 400;
           splat(x, y, Math.cos(angle) * force, Math.sin(angle) * force, color);
         }
-      }, 4000);
+      }, isMobile ? 8000 : 4000);
     };
 
     // 初始喷射 — 从两边向中间喷射，数量更多
     const doInitialSplash = () => {
-      const count = 15 + Math.floor(Math.random() * 10); // 15-24 个
+      const count = isMobile ? 5 : 15 + Math.floor(Math.random() * 10);
       for (let i = 0; i < count; i++) {
         const color = generateColor();
         color.r *= 10.0; color.g *= 10.0; color.b *= 10.0;
@@ -933,6 +949,8 @@ export default function FluidBackground({ delaySplash = false }: Props) {
       canvas.removeEventListener('pointerdown', onPointerDown);
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
+      canvas.removeEventListener('webglcontextrestored', onContextRestored);
     };
   }, []);
 
