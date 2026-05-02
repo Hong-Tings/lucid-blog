@@ -1,0 +1,23 @@
+---
+import { SITE_TITLE, SOCIAL_LINKS } from '../../lib/constants';
+---
+
+<footer class="border-t border-white/[0.04] py-12 px-6">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="text-xs text-white/20 tracking-wider">
+      © 2026 {SITE_TITLE}. All rights reserved.
+    </div>
+    <div class="flex items-center gap-6">
+      {SOCIAL_LINKS.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-white/30 hover:text-white/70 transition-colors tracking-wider uppercase"
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

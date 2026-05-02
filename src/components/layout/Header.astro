@@ -1,0 +1,13 @@
+---
+import Navigation from './Navigation';
+import { SITE_TITLE, NAV_ITEMS } from '../../lib/constants';
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-dark/60 backdrop-blur-2xl border-b border-white/[0.04]">
+  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="text-lg font-display font-bold gradient-text tracking-tight">
+      {SITE_TITLE}
+    </a>
+    <Navigation items={NAV_ITEMS} client:load />
+  </nav>
+</header>

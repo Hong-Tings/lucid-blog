@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Badge from '../components/ui/Badge';
+
+const skills = ['TypeScript', 'React', 'Node.js', 'Go', 'Python', '摄影', '写作'];
+---
+
+<BaseLayout title="关于 — Lucid 清醒">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+        {/* Avatar */}
+        <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-4xl flex-shrink-0 rotate-3 hover:rotate-0 transition-transform duration-500">
+          👨‍💻
+        </div>
+
+        {/* Info */}
+        <div>
+          <h1 class="text-2xl font-display font-bold mb-4 tracking-tight">Hey, 我是 [你的名字]</h1>
+          <p class="text-sm text-white/50 leading-relaxed mb-4">
+            一个热爱创造的全栈开发者。白天写代码，晚上写文字。相信技术可以让生活更美好，也相信记录可以让时间留下痕迹。
+          </p>
+          <p class="text-sm text-white/50 leading-relaxed mb-8">
+            这个博客是我的数字花园——在这里，我记录技术探索、生活感悟和一切让我感到好奇的东西。
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            {skills.map((skill) => (
+              <Badge variant="primary">{skill}</Badge>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

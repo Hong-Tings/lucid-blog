@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/sections/ProjectCard';
+
+const projects = [
+  { icon: '🚀', name: 'Cool CLI Tool', description: '一个让终端更好用的命令行工具', stars: 1200, language: 'TypeScript', url: '#' },
+  { icon: '🎨', name: 'Color Palette', description: 'AI 驱动的配色方案生成器', stars: 856, language: 'React', url: '#' },
+  { icon: '📦', name: 'Mini ORM', description: '轻量级数据库 ORM', stars: 432, language: 'Go', url: '#' },
+  { icon: '🤖', name: 'Chat Bot', description: '智能对话机器人框架', stars: 2100, language: 'Python', url: '#' },
+];
+---
+
+<BaseLayout title="项目 — Lucid 清醒">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
+    <div class="max-w-5xl mx-auto">
+      <h1 class="text-2xl font-display font-bold mb-2 gradient-text tracking-tight">项目</h1>
+      <p class="text-xs text-white/30 mb-10 tracking-wider">开源项目和个人作品</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {projects.map((project) => (
+          <ProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

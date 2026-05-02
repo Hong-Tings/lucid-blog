@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/blog/PostCard';
+import CategoryFilter from '../../components/blog/CategoryFilter';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="文章 — Lucid 清醒">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-2xl font-display font-bold mb-2 gradient-text tracking-tight">文章</h1>
+      <p class="text-xs text-white/30 mb-10 tracking-wider">记录技术、生活与思考</p>
+
+      <CategoryFilter client:load onFilterChange={() => {}} />
+
+      <div>
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            category={post.data.category}
+            slug={post.slug}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
