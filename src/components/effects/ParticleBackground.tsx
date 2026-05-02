@@ -15,21 +15,28 @@ export default function ParticleBackground() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    const count = 600;
+    const count = 500;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      positions[i3] = (Math.random() - 0.5) * 12;
-      positions[i3 + 1] = (Math.random() - 0.5) * 12;
-      positions[i3 + 2] = (Math.random() - 0.5) * 12;
+      positions[i3] = (Math.random() - 0.5) * 14;
+      positions[i3 + 1] = (Math.random() - 0.5) * 14;
+      positions[i3 + 2] = (Math.random() - 0.5) * 14;
 
+      // Warm color palette: amber to orange
       const color = new THREE.Color();
-      color.setHSL(0.7 + Math.random() * 0.1, 0.8, 0.5 + Math.random() * 0.3);
+      const hue = 0.08 + Math.random() * 0.1; // warm range
+      const sat = 0.6 + Math.random() * 0.3;
+      const light = 0.5 + Math.random() * 0.3;
+      color.setHSL(hue, sat, light);
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
+
+      sizes[i] = Math.random() * 0.02 + 0.008;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -37,10 +44,10 @@ export default function ParticleBackground() {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
-      size: 0.015,
+      size: 0.018,
       vertexColors: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.6,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
     });
@@ -60,10 +67,10 @@ export default function ParticleBackground() {
     let animationId: number;
     function animate() {
       animationId = requestAnimationFrame(animate);
-      particles.rotation.x += 0.0002;
-      particles.rotation.y += 0.0004;
-      particles.rotation.x += mouseY * 0.0002;
-      particles.rotation.y += mouseX * 0.0002;
+      particles.rotation.x += 0.00015;
+      particles.rotation.y += 0.0003;
+      particles.rotation.x += mouseY * 0.00015;
+      particles.rotation.y += mouseX * 0.00015;
       renderer.render(scene, camera);
     }
     animate();
@@ -89,8 +96,8 @@ export default function ParticleBackground() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 opacity-60"
-      style={{ filter: 'blur(0.5px)' }}
+      className="absolute inset-0 opacity-70"
+      style={{ filter: 'blur(0.3px)' }}
     />
   );
 }

@@ -20,7 +20,7 @@ export default function Navigation({ items }: Props) {
           <a
             key={item.href}
             href={item.href}
-            className="text-sm text-white/50 hover:text-white transition-colors duration-300 relative group"
+            className="text-sm text-warm-300/50 hover:text-warm-100 transition-colors duration-300 relative group"
           >
             {item.label}
             <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
@@ -30,7 +30,7 @@ export default function Navigation({ items }: Props) {
 
       {/* Mobile Toggle */}
       <button
-        className="md:hidden text-white/60 hover:text-white"
+        className="md:hidden text-warm-300/50 hover:text-warm-100"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
@@ -51,7 +51,7 @@ export default function Navigation({ items }: Props) {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-white/60 hover:text-white transition-colors text-lg"
+                className="text-warm-300/50 hover:text-warm-100 transition-colors text-lg"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}

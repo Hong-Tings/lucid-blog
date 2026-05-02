@@ -48,32 +48,35 @@ export default function Timeline() {
   return (
     <section className="section-padding">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-xl font-display font-bold mb-12 gradient-text tracking-tight">
-          最新文章
-        </h2>
+        <div className="flex items-center gap-4 mb-14">
+          <h2 className="text-xl font-display italic text-warm-50 tracking-tight">
+            最新文章
+          </h2>
+          <div className="flex-1 h-px bg-gradient-to-r from-primary/20 to-transparent" />
+        </div>
 
         <div ref={timelineRef} className="relative pl-8">
           {/* Vertical line */}
-          <div className="absolute left-[5px] top-0 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-transparent opacity-30" />
+          <div className="absolute left-[5px] top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-accent/20 to-transparent" />
 
-          {posts.map((post, i) => (
+          {posts.map((post) => (
             <a
               key={post.slug}
               href={`/blog/${post.slug}`}
               className="timeline-item opacity-0 block mb-10 last:mb-0 group"
             >
               {/* Dot */}
-              <div className="absolute left-0 w-[11px] h-[11px] rounded-full border border-primary/50 bg-surface-dark group-hover:bg-primary group-hover:border-primary transition-all duration-300" />
+              <div className="absolute left-0 w-[11px] h-[11px] rounded-full border border-primary/40 bg-surface-dark group-hover:bg-primary group-hover:border-primary group-hover:shadow-[0_0_12px_rgba(232,168,56,0.4)] transition-all duration-300" />
 
               <div className="ml-4">
                 <div className="flex items-center gap-3 mb-1.5">
-                  <span className="text-[10px] text-white/25 font-mono tracking-wider">
+                  <span className="text-[10px] text-warm-400/30 font-mono tracking-wider">
                     {formatDate(post.date)}
                   </span>
                   <Badge>{post.category}</Badge>
-                  <span className="text-[10px] text-white/25">{post.readTime}</span>
+                  <span className="text-[10px] text-warm-400/30">{post.readTime}</span>
                 </div>
-                <h3 className="text-sm text-white/60 group-hover:text-white transition-colors duration-300">
+                <h3 className="text-sm text-warm-200/60 group-hover:text-warm-50 transition-colors duration-300">
                   {post.title}
                 </h3>
               </div>

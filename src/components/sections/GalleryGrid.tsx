@@ -13,11 +13,11 @@ interface Photo {
 }
 
 const photos: Photo[] = [
-  { id: 1, alt: '山景', gradient: 'from-indigo-950 to-blue-950', emoji: '🏔️', span: 'row-span-2' },
+  { id: 1, alt: '山景', gradient: 'from-amber-950 to-yellow-950', emoji: '🏔️', span: 'row-span-2' },
   { id: 2, alt: '日落', gradient: 'from-orange-950 to-red-950', emoji: '🌅' },
-  { id: 3, alt: '樱花', gradient: 'from-pink-950 to-rose-950', emoji: '🌸' },
-  { id: 4, alt: '海浪', gradient: 'from-cyan-950 to-blue-950', emoji: '🌊', span: 'col-span-2' },
-  { id: 5, alt: '城市', gradient: 'from-slate-900 to-zinc-900', emoji: '🏙️' },
+  { id: 3, alt: '樱花', gradient: 'from-rose-950 to-pink-950', emoji: '🌸' },
+  { id: 4, alt: '海浪', gradient: 'from-teal-950 to-emerald-950', emoji: '🌊', span: 'col-span-2' },
+  { id: 5, alt: '城市', gradient: 'from-stone-900 to-neutral-900', emoji: '🏙️' },
 ];
 
 export default function GalleryGrid() {

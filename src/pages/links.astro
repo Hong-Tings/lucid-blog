@@ -3,27 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/ui/Card';
 
 const friends = [
-  { name: '小明的博客', desc: '前端开发 · 生活记录', avatar: 'from-pink-500 to-rose-500', url: '#' },
-  { name: "Alice's Space", desc: '设计 · 创意 · 灵感', avatar: 'from-emerald-500 to-green-500', url: '#' },
-  { name: "Bob's Lab", desc: '后端 · 架构 · 思考', avatar: 'from-blue-500 to-sky-500', url: '#' },
-  { name: '摄影师小李', desc: '风光 · 人文 · 旅途', avatar: 'from-amber-500 to-yellow-500', url: '#' },
+  { name: '小明的博客', desc: '前端开发 · 生活记录', avatar: 'from-amber-500 to-orange-500', url: '#' },
+  { name: "Alice's Space", desc: '设计 · 创意 · 灵感', avatar: 'from-emerald-500 to-teal-500', url: '#' },
+  { name: "Bob's Lab", desc: '后端 · 架构 · 思考', avatar: 'from-rose-500 to-red-500', url: '#' },
+  { name: '摄影师小李', desc: '风光 · 人文 · 旅途', avatar: 'from-yellow-500 to-amber-500', url: '#' },
 ];
 ---
 
 <BaseLayout title="友链 — Lucid 清醒">
   <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-2xl font-display font-bold mb-2 gradient-text tracking-tight">友链</h1>
-      <p class="text-xs text-white/30 mb-10 tracking-wider">志同道合的朋友们</p>
+      <div class="flex items-center gap-4 mb-3">
+        <h1 class="text-2xl font-display italic text-warm-50 tracking-tight">友链</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 to-transparent"></div>
+      </div>
+      <p class="text-xs text-warm-500/30 mb-10 tracking-wider font-mono">志同道合的朋友们</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         {friends.map((friend) => (
           <a href={friend.url} target="_blank" rel="noopener noreferrer" class="group">
-            <Card className="flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
+            <Card className="flex items-center gap-4 hover:scale-[1.02] hover:border-primary/10 transition-all duration-500">
               <div class={`w-10 h-10 rounded-full bg-gradient-to-br ${friend.avatar} flex-shrink-0`} />
               <div>
-                <h3 class="text-sm font-medium text-white/80 group-hover:text-white transition-colors">{friend.name}</h3>
-                <p class="text-[10px] text-white/30 mt-0.5">{friend.desc}</p>
+                <h3 class="text-sm font-medium text-warm-100/80 group-hover:text-warm-50 transition-colors">{friend.name}</h3>
+                <p class="text-[10px] text-warm-500/30 mt-0.5">{friend.desc}</p>
               </div>
             </Card>
           </a>

@@ -25,7 +25,10 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ViewTransitions />
   </head>
-  <body class="noise-overlay">
+  <body class="relative">
+    <!-- Grain texture overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
     <SmoothScroll client:load>
       <CustomCursor client:load />
       <Header />

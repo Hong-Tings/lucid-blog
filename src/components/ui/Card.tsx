@@ -11,7 +11,7 @@ export default function Card({ children, className, hover = true }: CardProps) {
     <div
       className={cn(
         'glass-card p-6',
-        hover && 'hover:border-white/10 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500',
+        hover && 'hover:border-white/10 hover:shadow-lg hover:shadow-primary/[0.03] transition-all duration-500',
         className
       )}
     >

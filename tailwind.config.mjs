@@ -6,20 +6,32 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#6366f1',
-          light: '#818cf8',
-          dark: '#4f46e5',
+          DEFAULT: '#e8a838',
+          light: '#f0b84d',
+          dark: '#c88a20',
         },
-        accent: '#a78bfa',
+        accent: '#e85d3a',
         surface: {
-          DEFAULT: '#111111',
-          light: '#1a1a2e',
-          dark: '#0a0a0a',
+          DEFAULT: '#1e1b18',
+          light: '#2a2520',
+          dark: '#171412',
+        },
+        warm: {
+          50: '#faf5ef',
+          100: '#f5ede0',
+          200: '#e8d5b8',
+          300: '#d4b88a',
+          400: '#c49a5c',
+          500: '#b88340',
+          600: '#a06a2c',
+          700: '#845224',
+          800: '#6b4120',
+          900: '#58361c',
         },
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['"Syne"', 'sans-serif'],
+        sans: ['"Outfit"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
       },
       animation: {
@@ -28,6 +40,7 @@ export default {
         'float': 'float 3s ease-in-out infinite',
         'blink': 'blink 1s step-end infinite',
         'glow': 'glow 2s ease-in-out infinite',
+        'grain': 'grain 8s steps(10) infinite',
       },
       keyframes: {
         fadeInUp: {
@@ -44,11 +57,23 @@ export default {
         },
         blink: {
           '0%, 100%': { borderColor: 'transparent' },
-          '50%': { borderColor: '#6366f1' },
+          '50%': { borderColor: '#e8a838' },
         },
         glow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.2)' },
-          '50%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.4)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(232, 168, 56, 0.15)' },
+          '50%': { boxShadow: '0 0 40px rgba(232, 168, 56, 0.3)' },
+        },
+        grain: {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '10%': { transform: 'translate(-5%, -10%)' },
+          '20%': { transform: 'translate(-15%, 5%)' },
+          '30%': { transform: 'translate(7%, -25%)' },
+          '40%': { transform: 'translate(-5%, 25%)' },
+          '50%': { transform: 'translate(-15%, 10%)' },
+          '60%': { transform: 'translate(15%, 0%)' },
+          '70%': { transform: 'translate(0%, 15%)' },
+          '80%': { transform: 'translate(3%, 35%)' },
+          '90%': { transform: 'translate(-10%, 10%)' },
         },
       },
     },

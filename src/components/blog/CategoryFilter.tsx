@@ -20,8 +20,8 @@ export default function CategoryFilter({ onFilterChange }: Props) {
           className={`
             px-4 py-1.5 rounded-full text-xs transition-all duration-300
             ${active === cat
-              ? 'bg-primary text-white'
-              : 'border border-white/8 text-white/40 hover:border-white/15 hover:text-white/70'
+              ? 'bg-primary text-surface-dark font-semibold'
+              : 'border border-warm-700/20 text-warm-400/40 hover:border-primary/20 hover:text-warm-200'
             }
           `}
         >

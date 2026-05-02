@@ -12,8 +12,11 @@ const posts = (await getCollection('blog'))
 <BaseLayout title="文章 — Lucid 清醒">
   <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-2xl font-display font-bold mb-2 gradient-text tracking-tight">文章</h1>
-      <p class="text-xs text-white/30 mb-10 tracking-wider">记录技术、生活与思考</p>
+      <div class="flex items-center gap-4 mb-3">
+        <h1 class="text-2xl font-display italic text-warm-50 tracking-tight">文章</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 to-transparent"></div>
+      </div>
+      <p class="text-xs text-warm-500/30 mb-10 tracking-wider font-mono">记录技术、生活与思考</p>
 
       <CategoryFilter client:load onFilterChange={() => {}} />
 

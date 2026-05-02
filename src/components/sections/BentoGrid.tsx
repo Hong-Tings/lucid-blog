@@ -27,20 +27,20 @@ const items: BentoItem[] = [
     emoji: '🎵',
     content: '正在听',
     sub: 'Midnight City — M83',
-    gradient: 'from-purple-950/40 to-indigo-950/40',
+    gradient: 'from-amber-950/30 to-orange-950/30',
   },
   {
     title: '项目',
     content: '开源工具集',
     sub: '3 个仓库 →',
-    gradient: 'from-blue-950/30 to-cyan-950/30',
+    gradient: 'from-red-950/20 to-orange-950/30',
     link: '/projects',
   },
   {
     emoji: '📷',
     content: '摄影',
     sub: '12 张照片',
-    gradient: 'from-emerald-950/30 to-teal-950/30',
+    gradient: 'from-yellow-950/25 to-amber-950/25',
     link: '/gallery',
   },
   {
@@ -65,7 +65,7 @@ export default function BentoGrid() {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.1,
+        stagger: 0.12,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: gridRef.current,
@@ -88,23 +88,23 @@ export default function BentoGrid() {
               <Card
                 className={`h-full min-h-[140px] bg-gradient-to-br ${
                   item.gradient || 'from-surface to-surface-light'
-                } flex flex-col justify-between hover:scale-[1.02] transition-transform duration-500`}
+                } flex flex-col justify-between hover:scale-[1.02] hover:border-primary/10 transition-all duration-500`}
               >
                 <div>
                   {item.emoji && (
                     <div className="text-2xl mb-3">{item.emoji}</div>
                   )}
                   {item.title && (
-                    <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mb-2 font-mono">
+                    <p className="text-[10px] text-primary/50 uppercase tracking-[0.2em] mb-2 font-mono">
                       {item.title}
                     </p>
                   )}
-                  <p className="text-sm text-white/80 group-hover:text-white transition-colors">
+                  <p className="text-sm text-warm-200/80 group-hover:text-warm-50 transition-colors">
                     {item.content}
                   </p>
                 </div>
                 {item.sub && (
-                  <p className="text-xs text-white/30 mt-3">{item.sub}</p>
+                  <p className="text-xs text-warm-400/40 mt-3">{item.sub}</p>
                 )}
               </Card>
             </a>
