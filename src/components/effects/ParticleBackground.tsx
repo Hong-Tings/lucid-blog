@@ -7,6 +7,8 @@ export default function ParticleBackground() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const isDark = document.documentElement.classList.contains('dark');
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -15,28 +17,25 @@ export default function ParticleBackground() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    const count = 500;
+    const count = 600;
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      positions[i3] = (Math.random() - 0.5) * 14;
-      positions[i3 + 1] = (Math.random() - 0.5) * 14;
-      positions[i3 + 2] = (Math.random() - 0.5) * 14;
+      positions[i3] = (Math.random() - 0.5) * 16;
+      positions[i3 + 1] = (Math.random() - 0.5) * 16;
+      positions[i3 + 2] = (Math.random() - 0.5) * 16;
 
-      // Warm color palette: amber to orange
       const color = new THREE.Color();
-      const hue = 0.08 + Math.random() * 0.1; // warm range
-      const sat = 0.6 + Math.random() * 0.3;
-      const light = 0.5 + Math.random() * 0.3;
+      // Warm amber/orange palette for both modes
+      const hue = 0.06 + Math.random() * 0.12;
+      const sat = 0.4 + Math.random() * 0.4;
+      const light = isDark ? (0.5 + Math.random() * 0.3) : (0.55 + Math.random() * 0.2);
       color.setHSL(hue, sat, light);
       colors[i3] = color.r;
       colors[i3 + 1] = color.g;
       colors[i3 + 2] = color.b;
-
-      sizes[i] = Math.random() * 0.02 + 0.008;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -47,7 +46,7 @@ export default function ParticleBackground() {
       size: 0.018,
       vertexColors: true,
       transparent: true,
-      opacity: 0.6,
+      opacity: isDark ? 0.5 : 0.35,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
     });
@@ -96,7 +95,7 @@ export default function ParticleBackground() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 opacity-70"
+      className="absolute inset-0 opacity-40"
       style={{ filter: 'blur(0.3px)' }}
     />
   );

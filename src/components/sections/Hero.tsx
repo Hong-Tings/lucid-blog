@@ -1,47 +1,93 @@
-import ParticleBackground from '../effects/ParticleBackground';
+import { useEffect, useRef } from 'react';
 import TextReveal from '../effects/TextReveal';
-import TypewriterText from '../effects/TypewriterText';
+import GlowTypewriter from '../effects/GlowTypewriter';
 
 export default function Hero() {
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+    const circles = svgRef.current.querySelectorAll('.hero-circle');
+    circles.forEach((circle, i) => {
+      const el = circle as SVGCircleElement;
+      const length = el.getTotalLength();
+      el.style.strokeDasharray = `${length}`;
+      el.style.strokeDashoffset = `${length}`;
+      el.style.transition = `stroke-dashoffset ${2 + i * 0.8}s cubic-bezier(0.16, 1, 0.3, 1) ${0.5 + i * 0.3}s`;
+      requestAnimationFrame(() => {
+        el.style.strokeDashoffset = '0';
+      });
+    });
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <ParticleBackground />
+      {/* No frosted glass — let fluid canvas show through clearly */}
 
-      {/* Warm gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-surface-dark/50 to-surface-dark" />
-      <div className="absolute inset-0 bg-gradient-to-r from-surface-dark/40 via-transparent to-surface-dark/40" />
+      {/* Subtle grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+          backgroundSize: '48px 48px',
+        }}
+      />
 
-      {/* Warm glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/[0.04] rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-accent/[0.03] rounded-full blur-[100px]" />
+      {/* SVG Animated circles */}
+      <svg
+        ref={svgRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none"
+        viewBox="0 0 700 700"
+        fill="none"
+      >
+        <circle className="hero-circle" cx="350" cy="350" r="250" stroke="currentColor" strokeWidth="0.5" opacity="0.15" />
+        <circle className="hero-circle" cx="350" cy="350" r="350" stroke="currentColor" strokeWidth="0.5" opacity="0.08" />
+        <circle className="hero-circle" cx="350" cy="350" r="150" stroke="currentColor" strokeWidth="0.5" opacity="0.1" />
+      </svg>
 
-      {/* Decorative circles */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-primary/[0.06] rounded-full" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-primary/[0.03] rounded-full" />
+      {/* Rotating ring */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
+        <svg className="w-full h-full animate-[spin_60s_linear_infinite]" viewBox="0 0 600 600" fill="none">
+          <circle cx="300" cy="300" r="298" stroke="currentColor" strokeWidth="0.3" strokeDasharray="8 12" opacity="0.1" />
+        </svg>
+      </div>
 
-      {/* Horizontal accent lines */}
-      <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
-      <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent" />
+      {/* Corner marks */}
+      <div className="absolute top-24 left-8 w-12 h-12 border-t border-l border-warm-700" />
+      <div className="absolute bottom-24 right-8 w-12 h-12 border-b border-r border-warm-700" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl">
-        <p className="text-[10px] tracking-[0.6em] uppercase text-primary/60 mb-10 font-mono">
+        <p className="text-[10px] tracking-[0.6em] uppercase text-warm-500 mb-10 font-mono">
           Welcome to my world
         </p>
 
         <TextReveal
           text="创造·探索·记录"
-          className="text-6xl md:text-8xl lg:text-9xl font-display italic mb-8 justify-center text-warm-50"
+          className="text-6xl md:text-8xl lg:text-9xl font-display italic mb-8 justify-center text-white"
         />
 
-        <p className="text-lg md:text-xl text-warm-300/60 mb-20 font-light">
-          <TypewriterText text="一个开发者的数字花园" speed={120} />
+        <p className="text-lg md:text-xl text-warm-400 mb-8 font-light">
+          <GlowTypewriter text="一个开发者的数字花园" speed={120} />
         </p>
 
-        <div className="inline-flex flex-col items-center gap-3 text-xs text-warm-400/40 animate-float">
-          <span className="tracking-[0.4em] uppercase font-mono text-[9px]">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-primary/40 to-transparent" />
+        <p className="text-sm text-warm-400 leading-[1.9] max-w-xl mx-auto mb-14">
+          白天写代码，晚上写文字。相信技术可以让生活更美好，也相信记录可以让时间留下痕迹。
+        </p>
+
+        {/* Quick links */}
+        <div className="flex items-center justify-center gap-3 mb-16">
+          <a href="/blog" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+            阅读文章
+          </a>
+          <span className="text-warm-700">·</span>
+          <a href="/projects" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+            看看项目
+          </a>
+          <span className="text-warm-700">·</span>
+          <a href="/about" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+            了解更多
+          </a>
         </div>
       </div>
     </section>

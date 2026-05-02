@@ -76,18 +76,18 @@ export default function CustomCursor() {
     <>
       <div
         ref={circleRef}
-        className="fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+        className="fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2"
         style={{
           width: isHovering ? 50 : 30,
           height: isHovering ? 50 : 30,
-          border: `1.5px solid ${isHovering ? 'rgba(232, 168, 56, 0.7)' : 'rgba(250, 245, 239, 0.4)'}`,
+          border: `1.5px solid ${isHovering ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.15)'}`,
           borderRadius: '50%',
           transition: 'width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s',
         }}
       />
       <div
         ref={dotRef}
-        className="fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-primary rounded-full"
+        className="fixed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-black rounded-full"
       />
     </>
   );

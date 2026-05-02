@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const tagMap = new Map<string, number>();
+posts.forEach((post) => {
+  (post.data.tags || []).forEach((tag) => {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  });
+});
+const tags = Array.from(tagMap.entries()).sort((a, b) => b[1] - a[1]);
+const maxCount = tags.length > 0 ? Math.max(...tags.map((t) => t[1])) : 1;
+---
+
+<BaseLayout title="标签 — Lucid">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    {/* Background glow */}
+    <div class="absolute top-1/4 right-0 w-[300px] h-[300px] bg-black/[0.02] dark:bg-white/[0.02] rounded-full blur-[80px]" aria-hidden="true" />
+    {/* Oversized decorative text */}
+    <div class="absolute -left-4 top-16 text-[220px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">#</div>
+
+    <div class="max-w-3xl mx-auto relative">
+      <div class="flex items-center gap-4 mb-3">
+        <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="标签">标签</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 dark:from-white/20 to-transparent"></div>
+      </div>
+      <p class="text-xs text-warm-400 dark:text-warm-500 mb-10 tracking-wider font-mono">共 {tags.length} 个标签</p>
+
+      {/* Tag cloud */}
+      <div class="flex flex-wrap gap-3">
+        {tags.map(([tag, count]) => {
+          const ratio = count / maxCount;
+          const sizeClass = ratio > 0.7 ? 'text-lg px-5 py-2.5' : ratio > 0.4 ? 'text-sm px-4 py-2' : 'text-xs px-3 py-1.5';
+          return (
+            <a
+              href={`/tags/${tag}`}
+              class={`${sizeClass} inline-flex items-center gap-2 rounded-full border border-warm-200 dark:border-warm-700 text-warm-600 dark:text-warm-400 hover:border-warm-400 dark:hover:border-warm-500 hover:text-warm-800 dark:hover:text-warm-200 hover:bg-warm-50 dark:hover:bg-warm-800/50 transition-all duration-300 font-mono tracking-wider group`}
+            >
+              <span class="group-hover:scale-110 transition-transform duration-200">#</span>
+              {tag}
+              <span class="text-[10px] text-warm-300 dark:text-warm-600 ml-0.5">{count}</span>
+            </a>
+          );
+        })}
+      </div>
+
+      {tags.length === 0 && (
+        <div class="text-center py-20">
+          <p class="text-warm-400 dark:text-warm-500 text-sm">还没有标签</p>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

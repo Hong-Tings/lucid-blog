@@ -2,9 +2,9 @@
 import { SITE_TITLE, SOCIAL_LINKS } from '../../lib/constants';
 ---
 
-<footer class="border-t border-white/[0.04] py-16 px-6">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-    <div class="text-[10px] text-warm-500/25 tracking-[0.3em] uppercase font-mono">
+<footer class="py-16 px-6 transition-colors duration-500">
+  <div class="max-w-7xl mx-auto bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] px-8 py-6 shadow-[0_8px_32px_rgba(0,0,0,0.2)] flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="text-[10px] text-warm-400 tracking-[0.3em] uppercase font-mono">
       © 2026 {SITE_TITLE}
     </div>
     <div class="flex items-center gap-8">
@@ -13,7 +13,7 @@ import { SITE_TITLE, SOCIAL_LINKS } from '../../lib/constants';
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-[10px] text-warm-500/30 hover:text-primary transition-colors tracking-[0.2em] uppercase font-mono"
+          class="link-draw text-[10px] text-warm-400 hover:text-white transition-colors tracking-[0.2em] uppercase font-mono"
         >
           {link.name}
         </a>

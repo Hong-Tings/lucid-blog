@@ -1,0 +1,146 @@
+---
+---
+
+<div id="preloader" class="preloader" aria-hidden="true">
+  <div class="preloader-content">
+    <p class="preloader-logo">Lucid</p>
+    <div class="preloader-bar">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s;
+  }
+
+  :global(.dark) .preloader {
+    background: #0a0a0a;
+  }
+
+  .preloader.reveal {
+    animation: preloader-reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  }
+
+  .preloader.gone {
+    display: none;
+  }
+
+  .preloader-content {
+    text-align: center;
+  }
+
+  .preloader-logo {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 3rem;
+    color: #111111;
+    opacity: 0;
+    filter: blur(12px);
+    animation: preloader-logo-in 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: color 0.5s;
+  }
+
+  :global(.dark) .preloader-logo {
+    color: #ffffff;
+  }
+
+  .preloader-bar {
+    width: 120px;
+    height: 2px;
+    background: #e5e5e5;
+    border-radius: 2px;
+    margin: 1.5rem auto 0;
+    overflow: hidden;
+    opacity: 0;
+    animation: preloader-bar-in 0.4s 0.6s ease forwards;
+    transition: background 0.5s;
+  }
+
+  :global(.dark) .preloader-bar {
+    background: #333333;
+  }
+
+  .preloader-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: #111111;
+    border-radius: 2px;
+    animation: preloader-fill 1.2s 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: background 0.5s;
+  }
+
+  :global(.dark) .preloader-bar-fill {
+    background: #ffffff;
+  }
+
+  @keyframes preloader-logo-in {
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  @keyframes preloader-bar-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes preloader-fill {
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes preloader-reveal {
+    0% {
+      clip-path: inset(0 0 0 0);
+    }
+    50% {
+      clip-path: inset(0 0 0 50%);
+    }
+    100% {
+      clip-path: inset(0 50% 0 50%);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var el = document.getElementById('preloader');
+    if (!el) {
+      // preloader 不存在，通知可以喷射
+      window.dispatchEvent(new CustomEvent('preloader-done'));
+      return;
+    }
+
+    // Skip if already played this session
+    if (sessionStorage.getItem('lucid-preloader-done')) {
+      el.style.display = 'none';
+      window.dispatchEvent(new CustomEvent('preloader-done'));
+      return;
+    }
+
+    sessionStorage.setItem('lucid-preloader-done', '1');
+
+    // Simple timeout - 2.5 seconds total
+    setTimeout(function() {
+      el.classList.add('reveal');
+      // Hide completely after animation
+      setTimeout(function() {
+        el.style.display = 'none';
+        // 通知其他组件开屏动画完成
+        window.dispatchEvent(new CustomEvent('preloader-done'));
+      }, 1200);
+    }, 2500);
+  })();
+</script>

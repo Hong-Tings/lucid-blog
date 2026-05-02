@@ -1,0 +1,72 @@
+---
+interface Props {
+  items?: string[];
+  speed?: number;
+}
+
+const {
+  items = ['创造', '探索', '记录', '代码', '摄影', '生活', '开源', '思考'],
+  speed = 30,
+} = Astro.props;
+
+// Duplicate items for seamless loop
+const allItems = [...items, ...items, ...items];
+---
+
+<div class="marquee-wrapper bg-white/[0.02] backdrop-blur-[1px]">
+  <div class="marquee-track" style={`--duration: ${speed}s`}>
+    {allItems.map((item, i) => (
+      <span class="marquee-item">
+        {item}
+        <span class="marquee-dot">·</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.5s;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: marquee-scroll var(--duration) linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.06);
+    padding: 0 0.5rem;
+    flex-shrink: 0;
+    user-select: none;
+    transition: color 0.5s;
+  }
+
+  .marquee-dot {
+    font-family: 'Instrument Serif', Georgia, serif;
+    color: rgba(255, 255, 255, 0.1);
+    padding: 0 1rem;
+    transition: color 0.5s;
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+</style>

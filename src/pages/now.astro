@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const updates = [
+  { date: '2026-05', items: ['用 Astro 重构了博客', '学习 Three.js 粒子效果', '开始写技术博客'] },
+  { date: '2026-04', items: ['去了京都旅行', '完成了一个开源 CLI 工具', '开始学习 Go 语言'] },
+  { date: '2026-03', items: ['搬到新城市', '开始做摄影', '读完了《设计心理学》'] },
+];
+
+const currently = {
+  reading: ['《程序员的自我修养》', '《置身事内》'],
+  playing: ['Elden Ring', 'Hades II'],
+  learning: ['Rust', 'WebGL'],
+  watching: ['《白莲花度假村》', '《人生切割术》'],
+};
+---
+
+<BaseLayout title="Now — Lucid">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    {/* Background glow */}
+    <div class="absolute top-1/4 left-1/3 w-[300px] h-[300px] bg-black/[0.02] dark:bg-white/[0.02] rounded-full blur-[80px]" aria-hidden="true" />
+    {/* Oversized decorative text */}
+    <div class="absolute -left-4 top-16 text-[220px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">N</div>
+
+    <div class="max-w-3xl mx-auto relative">
+      <div class="flex items-center gap-4 mb-3">
+        <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="Now">Now</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 dark:from-white/20 to-transparent"></div>
+      </div>
+      <p class="text-xs text-warm-400 dark:text-warm-500 mb-12 tracking-wider font-mono">我最近在做什么</p>
+
+      {/* Currently section */}
+      <div class="glass-card p-6 md:p-8 mb-8">
+        <h2 class="text-sm font-display italic text-warm-800 dark:text-warm-200 tracking-tight mb-6">正在...</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-[10px] font-mono tracking-wider uppercase text-warm-400 dark:text-warm-500 mb-3 flex items-center gap-2">
+              <span>📚</span> 阅读
+            </h3>
+            <div class="space-y-1.5">
+              {currently.reading.map((item) => (
+                <p class="text-sm text-warm-600 dark:text-warm-400">{item}</p>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-[10px] font-mono tracking-wider uppercase text-warm-400 dark:text-warm-500 mb-3 flex items-center gap-2">
+              <span>🎮</span> 游戏
+            </h3>
+            <div class="space-y-1.5">
+              {currently.playing.map((item) => (
+                <p class="text-sm text-warm-600 dark:text-warm-400">{item}</p>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-[10px] font-mono tracking-wider uppercase text-warm-400 dark:text-warm-500 mb-3 flex items-center gap-2">
+              <span>💡</span> 学习
+            </h3>
+            <div class="space-y-1.5">
+              {currently.learning.map((item) => (
+                <p class="text-sm text-warm-600 dark:text-warm-400">{item}</p>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-[10px] font-mono tracking-wider uppercase text-warm-400 dark:text-warm-500 mb-3 flex items-center gap-2">
+              <span>📺</span> 追剧
+            </h3>
+            <div class="space-y-1.5">
+              {currently.watching.map((item) => (
+                <p class="text-sm text-warm-600 dark:text-warm-400">{item}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Timeline updates */}
+      <div class="relative pl-8">
+        <div class="absolute left-[5px] top-0 bottom-0 w-px bg-warm-200 dark:bg-warm-800" />
+        {updates.map((update) => (
+          <div class="mb-10 last:mb-0 relative">
+            <div class="absolute left-0 w-[11px] h-[11px] rounded-full border border-warm-300 dark:border-warm-600 bg-white dark:bg-[#1c1c1c]" />
+            <div class="ml-4">
+              <span class="text-[10px] text-warm-400 dark:text-warm-500 font-mono tracking-wider">{update.date}</span>
+              <ul class="mt-2 space-y-1">
+                {update.items.map((item) => (
+                  <li class="text-sm text-warm-600 dark:text-warm-400 flex items-start gap-2">
+                    <span class="text-warm-300 dark:text-warm-600 mt-1.5 text-[8px]">●</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div class="mt-12 text-center">
+        <p class="text-[10px] text-warm-300 dark:text-warm-600 font-mono tracking-wider">
+          灵感来自 <a href="https://nownownow.com" target="_blank" rel="noopener noreferrer" class="link-draw hover:text-warm-500 dark:hover:text-warm-400 transition-colors">nownownow.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,34 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/ui/Card';
+import MagneticWrapper from '../components/effects/MagneticWrapper';
 
 const friends = [
-  { name: '小明的博客', desc: '前端开发 · 生活记录', avatar: 'from-amber-500 to-orange-500', url: '#' },
-  { name: "Alice's Space", desc: '设计 · 创意 · 灵感', avatar: 'from-emerald-500 to-teal-500', url: '#' },
-  { name: "Bob's Lab", desc: '后端 · 架构 · 思考', avatar: 'from-rose-500 to-red-500', url: '#' },
-  { name: '摄影师小李', desc: '风光 · 人文 · 旅途', avatar: 'from-yellow-500 to-amber-500', url: '#' },
+  { name: '小明的博客', desc: '前端开发 · 生活记录', avatar: 'bg-warm-700 dark:bg-warm-300', url: '#' },
+  { name: "Alice's Space", desc: '设计 · 创意 · 灵感', avatar: 'bg-warm-500 dark:bg-warm-400', url: '#' },
+  { name: "Bob's Lab", desc: '后端 · 架构 · 思考', avatar: 'bg-warm-600 dark:bg-warm-500', url: '#' },
+  { name: '摄影师小李', desc: '风光 · 人文 · 旅途', avatar: 'bg-warm-400 dark:bg-warm-600', url: '#' },
 ];
 ---
 
-<BaseLayout title="友链 — Lucid 清醒">
-  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
-    <div class="max-w-3xl mx-auto">
+<BaseLayout title="友链 — Lucid">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    {/* Background glow */}
+    <div class="absolute top-1/2 left-0 w-[300px] h-[300px] bg-black/[0.015] dark:bg-white/[0.015] rounded-full blur-[80px]" aria-hidden="true" />
+    {/* Interconnected nodes SVG */}
+    <svg class="absolute top-16 right-8 w-40 h-40 opacity-[0.06] dark:opacity-[0.1]" aria-hidden="true" viewBox="0 0 100 100" fill="none">
+      <circle cx="20" cy="20" r="4" stroke="currentColor" strokeWidth="0.5" />
+      <circle cx="80" cy="30" r="3" stroke="currentColor" strokeWidth="0.5" />
+      <circle cx="50" cy="70" r="5" stroke="currentColor" strokeWidth="0.5" />
+      <circle cx="30" cy="85" r="3" stroke="currentColor" strokeWidth="0.5" />
+      <circle cx="75" cy="80" r="4" stroke="currentColor" strokeWidth="0.5" />
+      <line x1="20" y1="20" x2="80" y2="30" stroke="currentColor" strokeWidth="0.3" />
+      <line x1="20" y1="20" x2="50" y2="70" stroke="currentColor" strokeWidth="0.3" />
+      <line x1="80" y1="30" x2="50" y2="70" stroke="currentColor" strokeWidth="0.3" />
+      <line x1="50" y1="70" x2="30" y2="85" stroke="currentColor" strokeWidth="0.3" />
+      <line x1="50" y1="70" x2="75" y2="80" stroke="currentColor" strokeWidth="0.3" />
+    </svg>
+    {/* Large decorative number */}
+    <div class="absolute -left-4 bottom-8 text-[180px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">∞</div>
+
+    <div class="max-w-3xl mx-auto relative">
       <div class="flex items-center gap-4 mb-3">
-        <h1 class="text-2xl font-display italic text-warm-50 tracking-tight">友链</h1>
-        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 to-transparent"></div>
+        <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="友链">友链</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 dark:from-white/20 to-transparent"></div>
       </div>
-      <p class="text-xs text-warm-500/30 mb-10 tracking-wider font-mono">志同道合的朋友们</p>
+      <p class="text-xs text-warm-400 dark:text-warm-500 mb-10 tracking-wider font-mono">志同道合的朋友们</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         {friends.map((friend) => (
-          <a href={friend.url} target="_blank" rel="noopener noreferrer" class="group">
-            <Card className="flex items-center gap-4 hover:scale-[1.02] hover:border-primary/10 transition-all duration-500">
-              <div class={`w-10 h-10 rounded-full bg-gradient-to-br ${friend.avatar} flex-shrink-0`} />
-              <div>
-                <h3 class="text-sm font-medium text-warm-100/80 group-hover:text-warm-50 transition-colors">{friend.name}</h3>
-                <p class="text-[10px] text-warm-500/30 mt-0.5">{friend.desc}</p>
-              </div>
-            </Card>
+          <a href={friend.url} target="_blank" rel="noopener noreferrer" class="group block">
+            <MagneticWrapper client:load className="h-full">
+              <Card className="flex items-center gap-4 border border-warm-200/80 dark:border-warm-700/80 transition-[border-color,box-shadow] duration-500 relative overflow-hidden">
+                <div
+                  class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style="background: radial-gradient(circle at var(--highlight-x, 50%) var(--highlight-y, 50%), rgba(0, 0, 0, 0.04) 0%, transparent 60%);"
+                />
+                <div class={`w-10 h-10 rounded-full ${friend.avatar} flex-shrink-0 shadow-sm relative`} />
+                <div class="relative">
+                  <h3 class="text-sm font-medium text-warm-700 dark:text-warm-300 group-hover:text-warm-900 dark:group-hover:text-white transition-colors">{friend.name}</h3>
+                  <p class="text-[10px] text-warm-400 dark:text-warm-500 mt-0.5">{friend.desc}</p>
+                </div>
+              </Card>
+            </MagneticWrapper>
           </a>
         ))}
       </div>

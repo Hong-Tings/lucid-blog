@@ -2,45 +2,54 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const messages = [
-  { name: '小明', avatar: 'from-amber-500 to-orange-500', time: '2 小时前', text: '博客设计得太酷了！学到了很多 ✨' },
-  { name: 'Alice', avatar: 'from-emerald-500 to-teal-500', time: '昨天', text: '文章写得很棒，期待更多内容！' },
-  { name: 'Bob', avatar: 'from-rose-500 to-red-500', time: '3 天前', text: '从友链过来的，已收藏 👍' },
+  { name: '小明', avatar: 'bg-warm-700 dark:bg-warm-300', time: '2 小时前', text: '博客设计得太酷了！学到了很多 ✨' },
+  { name: 'Alice', avatar: 'bg-warm-500 dark:bg-warm-400', time: '昨天', text: '文章写得很棒，期待更多内容！' },
+  { name: 'Bob', avatar: 'bg-warm-600 dark:bg-warm-500', time: '3 天前', text: '从友链过来的，已收藏 👍' },
 ];
 ---
 
-<BaseLayout title="留言 — Lucid 清醒">
-  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
-    <div class="max-w-2xl mx-auto">
+<BaseLayout title="留言 — Lucid">
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    {/* Background glow */}
+    <div class="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-black/[0.02] dark:bg-white/[0.02] rounded-full blur-[80px]" aria-hidden="true" />
+    {/* Decorative quote mark */}
+    <div class="absolute -left-4 top-24 text-[200px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">💬</div>
+    {/* Wavy SVG line */}
+    <svg class="absolute bottom-20 left-0 w-full h-8 opacity-[0.06] dark:opacity-[0.1]" aria-hidden="true" viewBox="0 0 1200 30" fill="none" preserveAspectRatio="none">
+      <path d="M0 15Q150 0 300 15T600 15T900 15T1200 15" stroke="currentColor" strokeWidth="1" />
+    </svg>
+
+    <div class="max-w-2xl mx-auto relative">
       <div class="flex items-center gap-4 mb-3">
-        <h1 class="text-2xl font-display italic text-warm-50 tracking-tight">留言板</h1>
-        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 to-transparent"></div>
+        <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="留言板">留言板</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 dark:from-white/20 to-transparent"></div>
       </div>
-      <p class="text-xs text-warm-500/30 mb-10 tracking-wider font-mono">留下你的足迹</p>
+      <p class="text-xs text-warm-400 dark:text-warm-500 mb-10 tracking-wider font-mono">留下你的足迹</p>
 
       {/* Input area */}
       <div class="glass-card p-5 mb-10">
         <textarea
-          class="w-full bg-transparent text-warm-200/60 text-sm placeholder:text-warm-500/20 outline-none resize-none min-h-[80px] leading-relaxed"
+          class="input-glow w-full bg-transparent text-warm-700 dark:text-warm-300 text-sm placeholder:text-warm-400 dark:placeholder:text-warm-600 outline-none resize-none min-h-[80px] leading-relaxed"
           placeholder="写下你想说的..."
         ></textarea>
         <div class="flex justify-end mt-4">
-          <button class="px-6 py-2.5 bg-primary hover:bg-primary-light text-surface-dark text-xs font-semibold rounded-lg transition-colors duration-300">
+          <button class="btn-ripple px-6 py-2.5 bg-primary hover:bg-primary-light dark:bg-white dark:text-black dark:hover:bg-warm-200 text-white text-xs font-semibold rounded-lg transition-all duration-300 shadow-sm shadow-primary/20 active:scale-[0.97]">
             发送
           </button>
         </div>
       </div>
 
       {/* Messages */}
-      <div class="space-y-6">
+      <div class="space-y-4">
         {messages.map((msg) => (
-          <div class="flex gap-3">
-            <div class={`w-8 h-8 rounded-full bg-gradient-to-br ${msg.avatar} flex-shrink-0`} />
+          <div class="glass-card p-4 flex gap-3">
+            <div class={`w-8 h-8 rounded-full ${msg.avatar} flex-shrink-0`} />
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-medium text-warm-200/60">{msg.name}</span>
-                <span class="text-[10px] text-warm-500/20">{msg.time}</span>
+                <span class="text-xs font-medium text-warm-700 dark:text-warm-300">{msg.name}</span>
+                <span class="text-[10px] text-warm-400 dark:text-warm-500">{msg.time}</span>
               </div>
-              <p class="text-xs text-warm-400/40 leading-relaxed">{msg.text}</p>
+              <p class="text-xs text-warm-500 dark:text-warm-400 leading-relaxed">{msg.text}</p>
             </div>
           </div>
         ))}

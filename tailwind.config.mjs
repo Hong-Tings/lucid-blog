@@ -6,27 +6,27 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#e8a838',
-          light: '#f0b84d',
-          dark: '#c88a20',
+          DEFAULT: '#111111',
+          light: '#333333',
+          dark: '#000000',
         },
-        accent: '#e85d3a',
+        accent: '#666666',
         surface: {
-          DEFAULT: '#1e1b18',
-          light: '#2a2520',
-          dark: '#171412',
+          DEFAULT: '#fafafa',
+          light: '#ffffff',
+          dark: '#f5f5f5',
         },
         warm: {
-          50: '#faf5ef',
-          100: '#f5ede0',
-          200: '#e8d5b8',
-          300: '#d4b88a',
-          400: '#c49a5c',
-          500: '#b88340',
-          600: '#a06a2c',
-          700: '#845224',
-          800: '#6b4120',
-          900: '#58361c',
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
         },
       },
       fontFamily: {
@@ -39,7 +39,6 @@ export default {
         'char-reveal': 'charReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'float': 'float 3s ease-in-out infinite',
         'blink': 'blink 1s step-end infinite',
-        'glow': 'glow 2s ease-in-out infinite',
         'grain': 'grain 8s steps(10) infinite',
       },
       keyframes: {
@@ -57,11 +56,7 @@ export default {
         },
         blink: {
           '0%, 100%': { borderColor: 'transparent' },
-          '50%': { borderColor: '#e8a838' },
-        },
-        glow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(232, 168, 56, 0.15)' },
-          '50%': { boxShadow: '0 0 40px rgba(232, 168, 56, 0.3)' },
+          '50%': { borderColor: '#111111' },
         },
         grain: {
           '0%, 100%': { transform: 'translate(0, 0)' },

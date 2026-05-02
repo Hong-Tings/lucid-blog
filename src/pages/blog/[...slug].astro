@@ -2,6 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TableOfContents from '../../components/blog/TableOfContents';
 import Badge from '../../components/ui/Badge';
+import ShareButtons from '../../components/blog/ShareButtons';
+import RelatedPosts from '../../components/blog/RelatedPosts';
+import ReadingProgress from '../../components/blog/ReadingProgress';
+import EnhanceCodeBlocks from '../../components/effects/EnhanceCodeBlocks.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../../lib/utils';
 
@@ -15,19 +19,36 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
+const allPosts = await getCollection('blog');
+const relatedData = allPosts
+  .filter((p) => !p.data.draft)
+  .map((p) => ({ title: p.data.title, description: p.data.description, slug: p.slug, category: p.data.category }));
 ---
 
-<BaseLayout title={`${post.data.title} — Lucid 清醒`}>
-  <article class="pt-28 pb-16 px-6 md:px-12 lg:px-24">
-    <div class="max-w-4xl mx-auto">
+<BaseLayout title={`${post.data.title} — Lucid`}>
+  <article class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    {/* Subtle vertical accent line */}
+    <div class="absolute left-[10%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-warm-200 dark:via-warm-700 to-transparent opacity-40" aria-hidden="true" />
+    <div class="max-w-4xl mx-auto relative">
       {/* Header */}
       <header class="mb-14">
         <div class="flex items-center gap-3 mb-5">
-          <span class="text-[10px] text-warm-500/25 font-mono tracking-wider">{formatDate(post.data.date)}</span>
+          <span class="text-[10px] text-warm-400 dark:text-warm-500 font-mono tracking-wider">{formatDate(post.data.date)}</span>
           <Badge variant="primary">{post.data.category}</Badge>
         </div>
-        <h1 class="text-3xl md:text-5xl font-display italic tracking-tight text-warm-50 leading-tight">{post.data.title}</h1>
-        <p class="text-sm text-warm-400/40 mt-4 max-w-2xl">{post.data.description}</p>
+        <h1 class="text-3xl md:text-5xl font-display italic tracking-tight text-warm-800 dark:text-warm-100 leading-tight">{post.data.title}</h1>
+        <p class="text-sm text-warm-500 dark:text-warm-400 mt-4 max-w-2xl">{post.data.description}</p>
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="flex items-center gap-2 mt-3 flex-wrap">
+            {post.data.tags.map((tag: string) => (
+              <a href={`/tags/${tag}`} class="text-[10px] font-mono tracking-wider text-warm-300 dark:text-warm-600 hover:text-warm-500 dark:hover:text-warm-400 transition-colors">#{tag}</a>
+            ))}
+          </div>
+        )}
+        <div class="flex items-center justify-between mt-6">
+          <ReadingProgress client:idle />
+          <ShareButtons title={post.data.title} client:load />
+        </div>
       </header>
 
       {/* Divider */}
@@ -42,22 +63,30 @@ const { Content, headings } = await post.render();
         </aside>
 
         {/* Content */}
-        <div class="flex-1 min-w-0 prose prose-warm max-w-none
+        <div class="flex-1 min-w-0 prose prose-warm dark:prose-invert max-w-none
           prose-headings:font-display prose-headings:italic prose-headings:tracking-tight
           prose-headings:scroll-mt-28
-          prose-a:text-primary hover:prose-a:text-primary-light prose-a:transition-colors prose-a:no-underline hover:prose-a:underline
-          prose-code:text-primary/80 prose-code:bg-white/[0.04] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
-          prose-pre:bg-surface prose-pre:border prose-pre:border-white/[0.06] prose-pre:rounded-xl
+          prose-a:text-primary hover:prose-a:text-primary-dark dark:prose-a:text-warm-300 dark:hover:prose-a:text-white prose-a:transition-colors prose-a:no-underline hover:prose-a:underline
+          prose-code:text-primary-dark/80 dark:prose-code:text-warm-300 prose-code:bg-warm-100 dark:prose-code:bg-warm-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
+          prose-pre:bg-warm-50 dark:prose-pre:bg-[#262626] prose-pre:border prose-pre:border-warm-200 dark:prose-pre:border-warm-700 prose-pre:rounded-xl
           prose-img:rounded-xl
-          prose-blockquote:border-primary/25 prose-blockquote:text-warm-300/50 prose-blockquote:not-italic prose-blockquote:font-display
-          prose-strong:text-warm-200/80
-          prose-p:text-warm-300/55 prose-p:leading-[1.8]
-          prose-li:text-warm-300/55
-          prose-h2:text-warm-100/90 prose-h3:text-warm-200/70
+          prose-blockquote:border-primary/25 dark:prose-blockquote:border-warm-600 prose-blockquote:text-warm-500 dark:prose-blockquote:text-warm-400 prose-blockquote:not-italic prose-blockquote:font-display
+          prose-strong:text-warm-700 dark:prose-strong:text-warm-300
+          prose-p:text-warm-600 dark:prose-p:text-warm-400 prose-p:leading-[1.8]
+          prose-li:text-warm-600 dark:prose-li:text-warm-400
+          prose-h2:text-warm-800 dark:prose-h2:text-warm-200 prose-h3:text-warm-700 dark:prose-h3:text-warm-300
         ">
           <Content />
         </div>
       </div>
+
+      {/* Related Posts */}
+      <div class="max-w-4xl mx-auto relative">
+        <div class="lg:pl-56">
+          <RelatedPosts currentSlug={post.slug} posts={relatedData} client:load />
+        </div>
+      </div>
     </div>
   </article>
+  <EnhanceCodeBlocks />
 </BaseLayout>

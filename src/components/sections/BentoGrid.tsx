@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Card from '../ui/Card';
+import { useMagnetic } from '../effects/useMagnetic';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,9 +11,11 @@ interface BentoItem {
   content: string;
   sub?: string;
   emoji?: string;
-  gradient?: string;
   link?: string;
   span?: string;
+  image?: string;      // 背景图片路径
+  imageAlt?: string;
+  darkOverlay?: boolean; // 是否需要暗色遮罩让文字可读
 }
 
 const items: BentoItem[] = [
@@ -27,29 +30,97 @@ const items: BentoItem[] = [
     emoji: '🎵',
     content: '正在听',
     sub: 'Midnight City — M83',
-    gradient: 'from-amber-950/30 to-orange-950/30',
   },
   {
-    title: '项目',
-    content: '开源工具集',
-    sub: '3 个仓库 →',
-    gradient: 'from-red-950/20 to-orange-950/30',
-    link: '/projects',
-  },
-  {
-    emoji: '📷',
-    content: '摄影',
-    sub: '12 张照片',
-    gradient: 'from-yellow-950/25 to-amber-950/25',
+    title: '摄影',
+    content: '用镜头记录世界的瞬间',
+    sub: '5 组作品 →',
     link: '/gallery',
+    image: '/images/bento-gallery.jpg',  // ← 替换为你的照片
+    imageAlt: '摄影作品',
+    darkOverlay: true,
+  },
+  {
+    emoji: '🎮',
+    content: '在玩',
+    sub: 'Elden Ring · 塞尔达',
   },
   {
     title: '关于我',
     content: '全栈开发者 / 开源爱好者 / 摄影入门选手',
     span: 'md:col-span-2',
     link: '/about',
+    // image: '/images/bento-about.jpg',  // ← 可选：取消注释添加背景图
   },
 ];
+
+function MagneticBentoCard({ item }: { item: BentoItem }) {
+  const magneticRef = useMagnetic({ strength: 0.15, maxTilt: 4 });
+  const hasImage = !!item.image;
+
+  return (
+    <a
+      href={item.link || '#'}
+      className={`bento-card opacity-0 ${item.span || ''} group block`}
+    >
+      <div ref={magneticRef} className="h-full">
+        {hasImage ? (
+          /* Image-backed card */
+          <div className="h-full min-h-[180px] overflow-hidden relative group rounded-2xl border border-white/[0.12] backdrop-blur-md bg-white/[0.08] hover:bg-white/[0.12] hover:border-white/[0.2] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-500">
+            {/* Background image */}
+            <div className="absolute inset-0">
+              {/*
+                替换：取消注释并删除占位
+                <img src={item.image} alt={item.imageAlt || ''} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              */}
+              <div className="w-full h-full bg-warm-800/50 flex items-center justify-center">
+                <span className="text-xs font-mono text-warm-600">{item.image}</span>
+              </div>
+            </div>
+            {/* Dark overlay for text readability */}
+            {item.darkOverlay && (
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            )}
+            {/* Content on top of image */}
+            <div className="relative z-10 h-full flex flex-col justify-end p-5">
+              {item.title && (
+                <p className={`text-[10px] uppercase tracking-[0.2em] mb-1 font-mono ${item.darkOverlay ? 'text-white/60' : 'text-warm-400 dark:text-warm-500'}`}>
+                  {item.title}
+                </p>
+              )}
+              <p className={`text-sm font-medium ${item.darkOverlay ? 'text-white' : 'text-warm-700 dark:text-warm-300 group-hover:text-black dark:group-hover:text-white transition-colors'}`}>
+                {item.content}
+              </p>
+              {item.sub && (
+                <p className={`text-xs mt-1 ${item.darkOverlay ? 'text-white/50' : 'text-warm-400 dark:text-warm-500'}`}>{item.sub}</p>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Regular card */
+          <Card className="h-full min-h-[140px] flex flex-col justify-between bg-white/[0.08] backdrop-blur-md border-white/[0.12] hover:bg-white/[0.12] hover:border-white/[0.2] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-500">
+            <div>
+              {item.emoji && (
+                <div className="text-2xl mb-3">{item.emoji}</div>
+              )}
+              {item.title && (
+                <p className="text-[10px] text-warm-500 uppercase tracking-[0.2em] mb-2 font-mono">
+                  {item.title}
+                </p>
+              )}
+              <p className="text-sm text-warm-300 group-hover:text-white transition-colors">
+                {item.content}
+              </p>
+            </div>
+            {item.sub && (
+              <p className="text-xs text-warm-500 mt-3">{item.sub}</p>
+            )}
+          </Card>
+        )}
+      </div>
+    </a>
+  );
+}
 
 export default function BentoGrid() {
   const gridRef = useRef<HTMLDivElement>(null);
@@ -76,41 +147,10 @@ export default function BentoGrid() {
   }, []);
 
   return (
-    <section className="section-padding">
-      <div className="max-w-5xl mx-auto">
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {items.map((item, i) => (
-            <a
-              key={i}
-              href={item.link || '#'}
-              className={`bento-card opacity-0 ${item.span || ''} group`}
-            >
-              <Card
-                className={`h-full min-h-[140px] bg-gradient-to-br ${
-                  item.gradient || 'from-surface to-surface-light'
-                } flex flex-col justify-between hover:scale-[1.02] hover:border-primary/10 transition-all duration-500`}
-              >
-                <div>
-                  {item.emoji && (
-                    <div className="text-2xl mb-3">{item.emoji}</div>
-                  )}
-                  {item.title && (
-                    <p className="text-[10px] text-primary/50 uppercase tracking-[0.2em] mb-2 font-mono">
-                      {item.title}
-                    </p>
-                  )}
-                  <p className="text-sm text-warm-200/80 group-hover:text-warm-50 transition-colors">
-                    {item.content}
-                  </p>
-                </div>
-                {item.sub && (
-                  <p className="text-xs text-warm-400/40 mt-3">{item.sub}</p>
-                )}
-              </Card>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div ref={gridRef} className="grid grid-cols-2 gap-3">
+      {items.map((item, i) => (
+        <MagneticBentoCard key={i} item={item} />
+      ))}
+    </div>
   );
 }

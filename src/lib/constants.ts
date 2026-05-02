@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'Lucid 清醒';
+export const SITE_TITLE = 'Lucid';
 export const SITE_DESCRIPTION = '一个开发者的数字花园 — 创造·探索·记录';
 
 export const NAV_ITEMS = [
@@ -6,7 +6,10 @@ export const NAV_ITEMS = [
   { href: '/blog', label: '文章' },
   { href: '/projects', label: '项目' },
   { href: '/gallery', label: '摄影' },
+  { href: '/tags', label: '标签' },
   { href: '/about', label: '关于' },
+  { href: '/now', label: 'Now' },
+  { href: '/uses', label: 'Uses' },
   { href: '/guestbook', label: '留言' },
   { href: '/links', label: '友链' },
 ] as const;

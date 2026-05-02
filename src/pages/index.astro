@@ -3,10 +3,141 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/sections/Hero';
 import BentoGrid from '../components/sections/BentoGrid';
 import Timeline from '../components/sections/Timeline';
+import TechStack from '../components/sections/TechStack';
+import GamingShelf from '../components/sections/GamingShelf';
+import Interests from '../components/sections/Interests';
+import AnimatedCounter from '../components/effects/AnimatedCounter';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5)
+  .map((p) => ({
+    date: p.data.date.toISOString().split('T')[0],
+    title: p.data.title,
+    category: p.data.category,
+    slug: p.slug,
+  }));
 ---
 
-<BaseLayout>
+<BaseLayout showPreloader showFluid>
   <Hero client:load />
-  <BentoGrid client:visible />
-  <Timeline client:visible />
+
+  {/* Stats — floating panel, pulled up toward hero */}
+  <section class="-mt-4 py-10 px-6 relative z-10 transition-colors duration-500">
+    <div class="max-w-3xl mx-auto bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <div class="flex items-center justify-center gap-8 md:gap-14">
+        <div class="text-center">
+          <div class="text-2xl md:text-3xl font-display italic text-white">
+            <AnimatedCounter end={128} suffix="+" client:visible />
+          </div>
+          <p class="text-[9px] tracking-[0.3em] uppercase text-warm-400 font-mono mt-1">文章</p>
+        </div>
+        <div class="w-px h-8 bg-white/[0.1]"></div>
+        <div class="text-center">
+          <div class="text-2xl md:text-3xl font-display italic text-white">
+            <AnimatedCounter end={42} suffix="K" client:visible />
+          </div>
+          <p class="text-[9px] tracking-[0.3em] uppercase text-warm-400 font-mono mt-1">行代码</p>
+        </div>
+        <div class="w-px h-8 bg-white/[0.1]"></div>
+        <div class="text-center">
+          <div class="text-2xl md:text-3xl font-display italic text-white">
+            <AnimatedCounter end={15} suffix="+" client:visible />
+          </div>
+          <p class="text-[9px] tracking-[0.3em] uppercase text-warm-400 font-mono mt-1">项目</p>
+        </div>
+        <div class="w-px h-8 bg-white/[0.1] hidden md:block"></div>
+        <div class="text-center hidden md:block">
+          <div class="text-2xl md:text-3xl font-display italic text-white">
+            <AnimatedCounter end={3} suffix="年" client:visible />
+          </div>
+          <p class="text-[9px] tracking-[0.3em] uppercase text-warm-400 font-mono mt-1">经验</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Explore + Latest Articles — combined floating panel */}
+  <section class="px-6 md:px-12 lg:px-24 py-20 md:py-28 transition-colors duration-500">
+    <div class="max-w-6xl mx-auto bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* Left — Explore */}
+        <div>
+          <div class="flex items-center gap-4 mb-6">
+            <h2 class="text-lg font-display italic text-white tracking-tight glitch-hover" data-text="探索">探索</h2>
+            <div class="flex-1 h-px bg-gradient-to-r from-white/[0.2] to-transparent" />
+          </div>
+          <BentoGrid client:visible />
+        </div>
+        {/* Right — Latest Articles */}
+        <div>
+          <div class="flex items-center gap-4 mb-6">
+            <h2 class="text-lg font-display italic text-white tracking-tight glitch-hover" data-text="最新文章">最新文章</h2>
+            <div class="flex-1 h-px bg-gradient-to-r from-white/[0.2] to-transparent" />
+          </div>
+          <Timeline posts={allPosts} client:visible />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Tech Stack + Gaming — floating panel */}
+  <section class="px-6 md:px-12 lg:px-24 py-20 md:py-28 transition-colors duration-500">
+    <div class="max-w-6xl mx-auto bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div>
+          <div class="flex items-center gap-4 mb-3">
+            <h2 class="text-lg font-display italic text-white tracking-tight glitch-hover" data-text="技术栈">技术栈</h2>
+            <div class="flex-1 h-px bg-gradient-to-r from-white/[0.2] to-transparent"></div>
+          </div>
+          <p class="text-[10px] text-warm-400 mb-6 tracking-wider font-mono uppercase">日常使用的工具 & 我和它们的故事</p>
+          <TechStack client:visible />
+        </div>
+        <div>
+          <div class="flex items-center gap-4 mb-3">
+            <h2 class="text-lg font-display italic text-white tracking-tight glitch-hover" data-text="游戏架">游戏架</h2>
+            <div class="flex-1 h-px bg-gradient-to-r from-white/[0.2] to-transparent"></div>
+          </div>
+          <p class="text-[10px] text-warm-400 mb-6 tracking-wider font-mono uppercase">那些让我沉迷的世界</p>
+          <GamingShelf client:visible />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Interests — floating panel */}
+  <section class="px-6 md:px-12 lg:px-24 py-20 md:py-28 relative overflow-hidden transition-colors duration-500">
+    <div class="absolute -right-8 md:-right-4 top-8 text-[200px] md:text-[300px] font-display italic text-white/[0.04] leading-none select-none pointer-events-none">
+      08
+    </div>
+    <div class="max-w-5xl mx-auto relative bg-white/[0.06] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <div class="flex items-end gap-4 mb-3">
+        <h2 class="text-lg font-display italic text-white tracking-tight glitch-hover" data-text="兴趣爱好">兴趣爱好</h2>
+        <span class="text-[10px] text-warm-400 font-mono tracking-wider pb-0.5">08 项</span>
+        <div class="flex-1 h-px bg-gradient-to-r from-white/[0.2] to-transparent"></div>
+      </div>
+      <p class="text-[10px] text-warm-400 mb-8 tracking-wider font-mono uppercase">代码之外的世界</p>
+      <Interests client:visible />
+    </div>
+  </section>
+
+  {/* Bottom CTA — floating panel */}
+  <section class="py-20 md:py-28 px-6 text-center transition-colors duration-500">
+    <div class="max-w-2xl mx-auto bg-white/[0.08] backdrop-blur-xl rounded-2xl border border-white/[0.1] p-10 md:p-14 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <p class="text-[10px] font-mono tracking-[0.4em] uppercase text-warm-400 mb-6">Thanks for scrolling</p>
+      <h3 class="text-2xl md:text-3xl font-display italic text-white mb-8">
+        想聊聊？随时欢迎。
+      </h3>
+      <div class="flex items-center justify-center gap-6">
+        <a href="/guestbook" class="bg-white/[0.08] border border-white/[0.12] px-6 py-3 text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white hover:bg-white/[0.15] hover:border-white/[0.25] rounded-xl transition-all duration-300">
+          留个言 →
+        </a>
+        <a href="/links" class="bg-white/[0.08] border border-white/[0.12] px-6 py-3 text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white hover:bg-white/[0.15] hover:border-white/[0.25] rounded-xl transition-all duration-300">
+          逛逛友链 →
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

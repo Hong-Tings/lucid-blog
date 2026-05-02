@@ -1,13 +1,85 @@
 ---
 import Navigation from './Navigation';
+import ThemeToggle from '../effects/ThemeToggle';
 import { SITE_TITLE, NAV_ITEMS } from '../../lib/constants';
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface-dark/70 backdrop-blur-2xl border-b border-white/[0.04]">
+<header id="site-header" data-scrolled="false" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
   <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="text-lg font-display italic text-primary tracking-tight hover:text-primary-light transition-colors">
+    <a href="/" class="text-lg font-display italic tracking-tight transition-colors">
       {SITE_TITLE}
     </a>
-    <Navigation items={NAV_ITEMS} client:load />
+    <div class="flex items-center gap-4">
+      <Navigation items={NAV_ITEMS} client:load />
+      <button
+        onclick="document.dispatchEvent(new KeyboardEvent('keydown', {key: 'k', metaKey: true}))"
+        class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200 header-action-btn"
+        aria-label="搜索"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <kbd class="text-[10px] font-mono tracking-wider">⌘K</kbd>
+      </button>
+      <ThemeToggle client:load />
+    </div>
   </nav>
 </header>
+
+<style>
+  #site-header[data-scrolled="false"] a { color: white; }
+  #site-header[data-scrolled="false"] a:hover { color: #d4a574; }
+  #site-header[data-scrolled="false"] :global(.group span[class*="bg-primary"]) { background: white; }
+  #site-header[data-scrolled="false"] .header-action-btn {
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+  }
+  #site-header[data-scrolled="false"] .header-action-btn:hover {
+    border-color: rgba(255,255,255,0.4);
+    color: white;
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label="Toggle menu"]) {
+    color: white;
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]) {
+    color: white;
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"] svg) {
+    color: white;
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]:hover) {
+    background: rgba(255,255,255,0.1);
+  }
+
+  #site-header[data-scrolled="true"] a { color: var(--tw-warm-800); }
+  .dark #site-header[data-scrolled="true"] a { color: white; }
+  #site-header[data-scrolled="true"] .header-action-btn {
+    border-color: var(--tw-warm-200);
+    color: var(--tw-warm-400);
+  }
+  .dark #site-header[data-scrolled="true"] .header-action-btn {
+    border-color: var(--tw-warm-700);
+    color: var(--tw-warm-500);
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    var header = document.getElementById('site-header');
+    if (!header) return;
+    function update() {
+      var s = window.scrollY > 80;
+      header.setAttribute('data-scrolled', s ? 'true' : 'false');
+      if (s) {
+        header.classList.remove('bg-transparent');
+        header.classList.add('bg-white/90', 'dark:bg-[#1c1c1c]/90', 'backdrop-blur-2xl', 'border-b', 'border-warm-200/40', 'dark:border-warm-700/40');
+      } else {
+        header.classList.add('bg-transparent');
+        header.classList.remove('bg-white/90', 'dark:bg-[#1c1c1c]/90', 'backdrop-blur-2xl', 'border-b', 'border-warm-200/40', 'dark:border-warm-700/40');
+      }
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>

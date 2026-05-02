@@ -20,17 +20,17 @@ export default function Navigation({ items }: Props) {
           <a
             key={item.href}
             href={item.href}
-            className="text-sm text-warm-300/50 hover:text-warm-100 transition-colors duration-300 relative group"
+            className="text-sm text-warm-500 dark:text-warm-400 hover:text-warm-800 dark:hover:text-white transition-colors duration-300 relative group"
           >
             {item.label}
-            <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
+            <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary dark:bg-white group-hover:w-full transition-all duration-300" />
           </a>
         ))}
       </div>
 
       {/* Mobile Toggle */}
       <button
-        className="md:hidden text-warm-300/50 hover:text-warm-100"
+        className="md:hidden text-warm-500 dark:text-warm-400 hover:text-warm-800 dark:hover:text-white"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
@@ -45,13 +45,13 @@ export default function Navigation({ items }: Props) {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-surface-dark/95 backdrop-blur-xl border-b border-white/[0.06] p-6 md:hidden">
+        <div className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-[#1c1c1c]/95 backdrop-blur-xl border-b border-warm-200/40 dark:border-warm-700/40 p-6 md:hidden">
           <div className="flex flex-col gap-4">
             {items.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="text-warm-300/50 hover:text-warm-100 transition-colors text-lg"
+                className="text-warm-500 dark:text-warm-400 hover:text-warm-800 dark:hover:text-white transition-colors text-lg"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}

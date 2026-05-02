@@ -1,0 +1,84 @@
+<script>
+  // Enhance Markdown-rendered code blocks with header bars and copy buttons
+  (function() {
+    function enhanceCodeBlocks() {
+      const pres = document.querySelectorAll('.prose pre');
+
+      pres.forEach((pre) => {
+        if (pre.closest('.code-block-wrapper')) return;
+
+        const code = pre.querySelector('code');
+        if (!code) return;
+
+        const langMatch = code.className.match(/language-(\w+)/);
+        const lang = langMatch ? langMatch[1] : (pre.getAttribute('data-language') || '');
+        const filename = pre.getAttribute('data-filename') || code.getAttribute('data-filename') || '';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+
+        const header = document.createElement('div');
+        header.className = 'code-block-header';
+
+        const headerLeft = document.createElement('div');
+        headerLeft.className = 'code-block-header-left';
+
+        const dots = document.createElement('div');
+        dots.className = 'code-block-dots';
+        dots.innerHTML = '<span></span><span></span><span></span>';
+        headerLeft.appendChild(dots);
+
+        if (filename || lang) {
+          const label = document.createElement('span');
+          label.className = 'code-block-lang';
+          label.textContent = filename || lang;
+          headerLeft.appendChild(label);
+        }
+
+        header.appendChild(headerLeft);
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'code-block-copy';
+        copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+
+        copyBtn.addEventListener('click', async () => {
+          const text = code.textContent || '';
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch (e) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          copyBtn.classList.add('copied');
+          copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied';
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+          }, 2000);
+        });
+
+        header.appendChild(copyBtn);
+
+        const body = document.createElement('div');
+        body.className = 'code-block-body';
+
+        const parent = pre.parentNode;
+        parent.insertBefore(wrapper, pre);
+        wrapper.appendChild(header);
+        wrapper.appendChild(body);
+        body.appendChild(pre);
+
+        pre.style.background = 'transparent';
+        if (code) code.style.background = 'transparent';
+      });
+    }
+
+    enhanceCodeBlocks();
+    document.addEventListener('astro:page-load', enhanceCodeBlocks);
+  })();
+</script>
