@@ -11,7 +11,7 @@
     background: #ffffff;
   }
 
-  .dark html {
+  html.dark {
     background: #060606;
   }
 
