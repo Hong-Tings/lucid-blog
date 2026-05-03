@@ -6,6 +6,7 @@ import ShareButtons from '../../components/blog/ShareButtons';
 import RelatedPosts from '../../components/blog/RelatedPosts';
 import ReadingProgress from '../../components/blog/ReadingProgress';
 import EnhanceCodeBlocks from '../../components/effects/EnhanceCodeBlocks.astro';
+import PageBackground from '../../components/effects/PageBackground.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../../lib/utils';
 
@@ -26,9 +27,8 @@ const relatedData = allPosts
 ---
 
 <BaseLayout title={`${post.data.title} — Lucid`}>
+  <PageBackground theme="focus" />
   <article class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
-    {/* Subtle vertical accent line */}
-    <div class="absolute left-[10%] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-warm-200 dark:via-warm-700 to-transparent opacity-40" aria-hidden="true" />
     <div class="max-w-4xl mx-auto relative">
       {/* Header */}
       <header class="mb-14">
