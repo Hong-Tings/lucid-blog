@@ -1,18 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Badge from '../components/ui/Badge';
+import PageBackground from '../components/effects/PageBackground.astro';
 
 const skills = ['TypeScript', 'React', 'Node.js', 'Go', 'Python', '摄影', '写作'];
 ---
 
 <BaseLayout title="关于 — Lucid">
+  <PageBackground theme="pulse" />
   <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
-    {/* Background glow */}
-    <div class="absolute top-1/3 right-0 w-[400px] h-[400px] bg-black/[0.02] dark:bg-white/[0.02] rounded-full blur-[100px]" aria-hidden="true" />
     {/* Decorative oversized text */}
     <div class="absolute -left-4 top-20 text-[200px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">Hi</div>
-    {/* Diagonal line */}
-    <div class="absolute top-0 right-0 w-px h-[300px] bg-gradient-to-b from-warm-200 dark:from-warm-700 to-transparent origin-top rotate-[20deg]" aria-hidden="true" />
 
     <div class="max-w-3xl mx-auto relative">
       <div class="flex items-center gap-4 mb-12">
