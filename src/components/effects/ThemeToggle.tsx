@@ -8,18 +8,6 @@ export default function ThemeToggle() {
     // Read current state — the blocking script in BaseLayout already initialized it
     setIsDark(document.documentElement.classList.contains('dark'));
     setMounted(true);
-
-    // Listen for system preference changes
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
-      if (!localStorage.getItem('theme')) {
-        const dark = mq.matches;
-        setIsDark(dark);
-        document.documentElement.classList.toggle('dark', dark);
-      }
-    };
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   const toggle = () => {
