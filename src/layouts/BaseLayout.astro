@@ -46,7 +46,7 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION, showPreloader = fals
       })();
     </script>
   </head>
-  <body class:list={[{ 'dark': showFluid }, 'relative dark:bg-[#1c1c1c] dark:text-warm-200 transition-colors duration-500']}>
+  <body class:list={[{ 'dark': showFluid }, 'relative dark:text-warm-200 transition-colors duration-500']}>
     {showFluid && <FluidBackground client:load delaySplash={showPreloader} />}
     {showPreloader && <Preloader />}
 
