@@ -31,7 +31,7 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION, showPreloader = fals
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <ViewTransitions />
     <script is:inline>
       (function() {
@@ -53,17 +53,8 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION, showPreloader = fals
     <!-- Scroll Progress Bar -->
     <ScrollProgress client:load />
 
-    <!-- Grain texture overlay -->
-    <div class="grain-overlay" aria-hidden="true"></div>
-
     <!-- Floating geometric shapes -->
     <FloatingShapes client:load />
-
-    <!-- Ambient floating orbs — larger and more visible -->
-    <div class="ambient-orb" aria-hidden="true" style="width: 600px; height: 600px; background: rgba(212, 165, 116, 0.06); top: 5%; left: -8%;"></div>
-    <div class="ambient-orb" aria-hidden="true" style="width: 500px; height: 500px; background: rgba(201, 168, 124, 0.05); top: 35%; right: -10%;"></div>
-    <div class="ambient-orb" aria-hidden="true" style="width: 450px; height: 450px; background: rgba(180, 140, 100, 0.04); bottom: 10%; left: 15%;"></div>
-    <div class="ambient-orb" aria-hidden="true" style="width: 300px; height: 300px; background: rgba(212, 165, 116, 0.05); top: 60%; left: 50%;"></div>
 
     <SmoothScroll client:load>
       <Header />
@@ -83,5 +74,34 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION, showPreloader = fals
 
     <!-- Cursor spotlight (dark mode only) -->
     <CursorSpotlight client:load />
+
+    {/* Preloader logic: is:inline so it persists across View Transitions.
+        astro:page-load fires on initial load AND after every navigation swap. */}
+    <script is:inline>
+      document.addEventListener('astro:page-load', function() {
+        var el = document.getElementById('preloader');
+        if (!el) {
+          window.dispatchEvent(new CustomEvent('preloader-done'));
+          return;
+        }
+
+        // Already played this session — skip immediately
+        if (sessionStorage.getItem('lucid-preloader-done')) {
+          el.style.display = 'none';
+          window.dispatchEvent(new CustomEvent('preloader-done'));
+          return;
+        }
+
+        // Play preloader animation — 2.5s total
+        setTimeout(function() {
+          el.classList.add('reveal');
+          setTimeout(function() {
+            el.style.display = 'none';
+            sessionStorage.setItem('lucid-preloader-done', '1');
+            window.dispatchEvent(new CustomEvent('preloader-done'));
+          }, 1200);
+        }, 2500);
+      });
+    </script>
   </body>
 </html>
