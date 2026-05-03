@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBackground from '../components/effects/PageBackground.astro';
 
 const messages = [
   { name: '小明', avatar: 'bg-warm-700 dark:bg-warm-300', time: '2 小时前', text: '博客设计得太酷了！学到了很多 ✨' },
@@ -9,16 +10,10 @@ const messages = [
 ---
 
 <BaseLayout title="留言 — Lucid">
+  <PageBackground theme="bubbles" />
   <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
-    {/* Background glow */}
-    <div class="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-black/[0.02] dark:bg-white/[0.02] rounded-full blur-[80px]" aria-hidden="true" />
     {/* Decorative quote mark */}
     <div class="absolute -left-4 top-24 text-[200px] font-display italic text-warm-100 dark:text-warm-800/20 leading-none select-none pointer-events-none" aria-hidden="true">💬</div>
-    {/* Wavy SVG line */}
-    <svg class="absolute bottom-20 left-0 w-full h-8 opacity-[0.06] dark:opacity-[0.1]" aria-hidden="true" viewBox="0 0 1200 30" fill="none" preserveAspectRatio="none">
-      <path d="M0 15Q150 0 300 15T600 15T900 15T1200 15" stroke="currentColor" strokeWidth="1" />
-    </svg>
-
     <div class="max-w-2xl mx-auto relative">
       <div class="flex items-center gap-4 mb-3">
         <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="留言板">留言板</h1>
