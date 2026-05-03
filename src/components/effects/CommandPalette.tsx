@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 interface CommandItem {
   title: string;
   description: string;
@@ -9,20 +11,15 @@ interface CommandItem {
 }
 
 const commands: CommandItem[] = [
-  { title: '首页', description: '回到首页', href: '/', category: '页面', icon: '🏠' },
-  { title: '文章', description: '浏览所有文章', href: '/blog', category: '页面', icon: '📝' },
-  { title: '项目', description: '查看开源项目', href: '/projects', category: '页面', icon: '🚀' },
-  { title: '摄影', description: '摄影作品集', href: '/gallery', category: '页面', icon: '📷' },
-  { title: '标签', description: '按标签浏览文章', href: '/tags', category: '页面', icon: '🏷️' },
-  { title: '关于', description: '了解我', href: '/about', category: '页面', icon: '👋' },
-  { title: 'Now', description: '我最近在做什么', href: '/now', category: '页面', icon: '📌' },
-  { title: 'Uses', description: '我使用的工具和设备', href: '/uses', category: '页面', icon: '⚙️' },
-  { title: '友链', description: '志同道合的朋友', href: '/links', category: '页面', icon: '🔗' },
-  { title: '留言', description: '留下你的足迹', href: '/guestbook', category: '页面', icon: '💬' },
-  { title: '从零搭建一个炫酷博客', description: '技术 · 5 分钟阅读', href: '/blog/hello-world', category: '文章', icon: '📄' },
-  { title: '我为什么开始写博客', description: '随笔 · 8 分钟阅读', href: '/blog/why-i-write', category: '文章', icon: '📄' },
-  { title: 'React Server Components 深度解析', description: '技术 · 12 分钟阅读', href: '/blog/rsc-deep-dive', category: '文章', icon: '📄' },
-  { title: '京都的雨季', description: '生活 · 3 分钟阅读', href: '/blog/kyoto-rain', category: '文章', icon: '📄' },
+  { title: '首页', description: '回到首页', href: `${base}/`, category: '页面', icon: '🏠' },
+  { title: '文章', description: '浏览所有文章', href: `${base}/blog`, category: '页面', icon: '📝' },
+  { title: '项目', description: '查看开源项目', href: `${base}/projects`, category: '页面', icon: '🚀' },
+  { title: '成长', description: '我的成长轨迹', href: `${base}/growth`, category: '页面', icon: '🌱' },
+  { title: '留言', description: '留下你的足迹', href: `${base}/guestbook`, category: '页面', icon: '💬' },
+  { title: '从零搭建一个炫酷博客', description: '技术 · 5 分钟阅读', href: `${base}/blog/hello-world`, category: '文章', icon: '📄' },
+  { title: '我为什么开始写博客', description: '随笔 · 8 分钟阅读', href: `${base}/blog/why-i-write`, category: '文章', icon: '📄' },
+  { title: 'React Server Components 深度解析', description: '技术 · 12 分钟阅读', href: `${base}/blog/rsc-deep-dive`, category: '文章', icon: '📄' },
+  { title: '京都的雨季', description: '生活 · 3 分钟阅读', href: `${base}/blog/kyoto-rain`, category: '文章', icon: '📄' },
 ];
 
 export default function CommandPalette() {

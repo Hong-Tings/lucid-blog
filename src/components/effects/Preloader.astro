@@ -114,33 +114,4 @@
   }
 </style>
 
-<script>
-  (function() {
-    var el = document.getElementById('preloader');
-    if (!el) {
-      // preloader 不存在，通知可以喷射
-      window.dispatchEvent(new CustomEvent('preloader-done'));
-      return;
-    }
-
-    // Skip if already played this session
-    if (sessionStorage.getItem('lucid-preloader-done')) {
-      el.style.display = 'none';
-      window.dispatchEvent(new CustomEvent('preloader-done'));
-      return;
-    }
-
-    sessionStorage.setItem('lucid-preloader-done', '1');
-
-    // Simple timeout - 2.5 seconds total
-    setTimeout(function() {
-      el.classList.add('reveal');
-      // Hide completely after animation
-      setTimeout(function() {
-        el.style.display = 'none';
-        // 通知其他组件开屏动画完成
-        window.dispatchEvent(new CustomEvent('preloader-done'));
-      }, 1200);
-    }, 2500);
-  })();
-</script>
+<!-- Preloader logic handled by BaseLayout inline script via astro:page-load -->

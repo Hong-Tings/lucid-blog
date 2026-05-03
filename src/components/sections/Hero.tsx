@@ -63,29 +63,29 @@ export default function Hero() {
         </p>
 
         <TextReveal
-          text="创造·探索·记录"
+          text="学习·试错·成长"
           className="text-6xl md:text-8xl lg:text-9xl font-display italic mb-8 justify-center text-white"
         />
 
         <p className="text-lg md:text-xl text-warm-400 mb-8 font-light">
-          <GlowTypewriter text="一个开发者的数字花园" speed={120} />
+          <GlowTypewriter text="Lucid · 清醒" speed={120} />
         </p>
 
         <p className="text-sm text-warm-400 leading-[1.9] max-w-xl mx-auto mb-14">
-          白天写代码，晚上写文字。相信技术可以让生活更美好，也相信记录可以让时间留下痕迹。
+          学习是认知的输入，试错是实践的反馈，成长是两者循环迭代中实现的质变。
         </p>
 
         {/* Quick links */}
         <div className="flex items-center justify-center gap-3 mb-16">
-          <a href="/blog" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+          <a href={`${import.meta.env.BASE_URL}/blog`} className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
             阅读文章
           </a>
           <span className="text-warm-700">·</span>
-          <a href="/projects" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+          <a href={`${import.meta.env.BASE_URL}/projects`} className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
             看看项目
           </a>
           <span className="text-warm-700">·</span>
-          <a href="/about" className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
+          <a href={`${import.meta.env.BASE_URL}/about`} className="link-draw text-xs font-mono tracking-wider uppercase text-warm-300 hover:text-white transition-colors">
             了解更多
           </a>
         </div>

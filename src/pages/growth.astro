@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBackground from '../components/effects/PageBackground.astro';
+import GrowthContent from '../components/sections/GrowthContent';
+---
+
+<BaseLayout title="成长 — Lucid">
+  <PageBackground theme="horizon" />
+  <div class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    <div class="max-w-5xl mx-auto relative">
+
+      {/* Header */}
+      <div class="flex items-center gap-4 mb-3">
+        <h1 class="text-2xl font-display italic text-warm-800 dark:text-warm-200 tracking-tight glitch-hover" data-text="成长">成长</h1>
+        <div class="flex-1 h-px bg-gradient-to-r from-primary/20 dark:from-white/20 to-transparent"></div>
+      </div>
+      <p class="text-xs text-warm-400 dark:text-warm-500 mb-10 tracking-wider font-mono">从第一行代码到今天</p>
+
+      <GrowthContent client:load />
+
+    </div>
+  </div>
+</BaseLayout>

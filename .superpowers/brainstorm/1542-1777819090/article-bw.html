@@ -1,0 +1,212 @@
+<h2>文章页重构 — 黑白方案</h2>
+<p class="subtitle">去掉琥珀色，用纯黑白 + 灰阶。靠排版、对比度、光影说话。</p>
+
+<style>
+  .mockup { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); margin: 20px 0; }
+  .mockup-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .mockup-bar .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mockup-bar .dot:nth-child(1) { background: #ff5f57; }
+  .mockup-bar .dot:nth-child(2) { background: #ffbd2e; }
+  .mockup-bar .dot:nth-child(3) { background: #28c840; }
+  .mockup-bar span { font-size: 10px; color: rgba(255,255,255,0.3); margin-left: 8px; font-family: 'JetBrains Mono', monospace; }
+
+  .mockup-body { background: #0a0a0a; }
+
+  /* ===== HERO ===== */
+  .hero { position: relative; height: 100vh; min-height: 600px; max-height: 900px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 60px 60px; }
+  .hero .bg { position: absolute; inset: 0; }
+  .hero .bg .noise { position: absolute; inset: -100%; width: 300%; height: 300%; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.3; }
+  .hero .bg .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 100%); }
+  .hero .bg .line-h { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.03); }
+  .hero .bg .line-h:nth-child(3) { top: 20%; }
+  .hero .bg .line-h:nth-child(4) { top: 40%; }
+  .hero .bg .line-h:nth-child(5) { top: 60%; }
+  .hero .bg .line-h:nth-child(6) { top: 80%; }
+  .hero .bg .letter { position: absolute; top: 5%; right: 5%; font-size: 400px; font-family: 'Instrument Serif', serif; font-style: italic; color: rgba(255,255,255,0.015); line-height: 1; user-select: none; }
+  .hero .bg .glow { position: absolute; width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 60%); animation: hero-glow 8s ease-in-out infinite; }
+  @keyframes hero-glow { 0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
+
+  .hero .content { position: relative; z-index: 2; max-width: 800px; }
+  .hero .meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .hero .meta .date { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
+  .hero .meta .sep { width: 24px; height: 1px; background: rgba(255,255,255,0.15); }
+  .hero .meta .cat { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.2em; padding: 4px 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; }
+  .hero .title { font-size: 64px; font-family: 'Instrument Serif', serif; font-style: italic; color: #fff; line-height: 1.1; margin: 0 0 20px; letter-spacing: -0.02em; }
+  .hero .desc { font-size: 16px; color: rgba(255,255,255,0.3); line-height: 1.7; margin: 0 0 28px; max-width: 600px; }
+  .hero .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero .tags span { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.2); letter-spacing: 0.05em; }
+  .hero .tags span::before { content: '#'; opacity: 0.4; }
+  .hero .scroll-hint { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .hero .scroll-hint span { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.15); text-transform: uppercase; letter-spacing: 0.3em; }
+  .hero .scroll-hint .arrow { width: 1px; height: 24px; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); animation: scroll-bounce 2s ease-in-out infinite; }
+  @keyframes scroll-bounce { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(6px);opacity:0.3} }
+
+  .hero .progress { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.03); }
+  .hero .progress .fill { width: 0%; height: 100%; background: #fff; transition: width 0.1s; }
+
+  /* ===== CONTENT ===== */
+  .content-layout { display: flex; min-height: 600px; }
+  .toc-panel { width: 240px; padding: 48px 24px; border-right: 1px solid rgba(255,255,255,0.04); flex-shrink: 0; position: relative; background: rgba(255,255,255,0.01); }
+  .toc-panel .track { position: absolute; left: 24px; top: 48px; bottom: 48px; width: 1px; background: rgba(255,255,255,0.04); }
+  .toc-panel .track-fill { width: 100%; height: 25%; background: rgba(255,255,255,0.15); position: relative; }
+  .toc-panel .track-fill::after { content: ''; position: absolute; bottom: -3px; left: -3px; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,0.3); }
+  .toc-panel .toc-label { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 20px; padding-left: 16px; }
+  .toc-panel .toc-link { font-size: 12px; color: rgba(255,255,255,0.2); padding: 8px 0 8px 16px; cursor: pointer; transition: all 0.3s; display: block; }
+  .toc-panel .toc-link:hover { color: rgba(255,255,255,0.5); }
+  .toc-panel .toc-link.active { color: rgba(255,255,255,0.8); }
+  .toc-panel .toc-link.depth-3 { padding-left: 28px; font-size: 11px; }
+
+  .prose-area { flex: 1; padding: 48px 56px; max-width: 760px; }
+  .prose-area .drop-cap::first-letter { font-size: 72px; font-family: 'Instrument Serif', serif; font-style: italic; float: left; line-height: 0.75; padding-right: 12px; padding-top: 8px; color: rgba(255,255,255,0.6); }
+  .prose-area p { font-size: 15px; line-height: 1.9; color: rgba(255,255,255,0.5); margin: 0 0 1.5em; }
+  .prose-area h2 { font-size: 28px; font-family: 'Instrument Serif', serif; font-style: italic; color: rgba(255,255,255,0.85); margin: 48px 0 20px; letter-spacing: -0.01em; }
+  .prose-area h3 { font-size: 20px; font-family: 'Instrument Serif', serif; font-style: italic; color: rgba(255,255,255,0.7); margin: 36px 0 16px; }
+  .prose-area blockquote { border-left: 2px solid rgba(255,255,255,0.15); padding: 16px 24px; margin: 24px 0; background: rgba(255,255,255,0.02); border-radius: 0 8px 8px 0; }
+  .prose-area blockquote p { color: rgba(255,255,255,0.6); font-style: italic; font-family: 'Instrument Serif', serif; font-size: 17px; margin: 0; }
+  .prose-area code { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 3px; color: rgba(255,255,255,0.6); }
+  .prose-area .code-mock { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 16px 20px; margin: 20px 0; }
+  .prose-area .code-mock .dots { display: flex; gap: 5px; margin-bottom: 12px; }
+  .prose-area .code-mock .dots span { width: 8px; height: 8px; border-radius: 50%; }
+  .prose-area .code-mock .dots span:nth-child(1) { background: #ff5f57; }
+  .prose-area .code-mock .dots span:nth-child(2) { background: #ffbd2e; }
+  .prose-area .code-mock .dots span:nth-child(3) { background: #28c840; }
+  .prose-area .code-mock .code-line { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; margin-bottom: 8px; }
+  .prose-area .code-mock .code-line.w60 { width: 60%; }
+  .prose-area .code-mock .code-line.w80 { width: 80%; }
+  .prose-area .code-mock .code-line.w45 { width: 45%; }
+
+  /* ===== BOTTOM ===== */
+  .article-bottom { padding: 48px 56px; border-top: 1px solid rgba(255,255,255,0.04); }
+  .article-bottom .share-section { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+  .article-bottom .share-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.2em; }
+  .article-bottom .share-icon { width: 36px; height: 36px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 12px; transition: all 0.3s; cursor: pointer; }
+  .article-bottom .share-icon:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.03); }
+  .article-bottom .related-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.15); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px; }
+  .article-bottom .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .article-bottom .related-card { padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.01); transition: all 0.3s; cursor: pointer; }
+  .article-bottom .related-card:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); }
+  .article-bottom .related-card .rc { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.15em; }
+  .article-bottom .related-card h5 { font-size: 14px; color: rgba(255,255,255,0.5); margin: 8px 0 0; font-family: 'Instrument Serif', serif; font-style: italic; }
+  .article-bottom .related-card p { font-size: 11px; color: rgba(255,255,255,0.2); margin: 6px 0 0; line-height: 1.5; }
+</style>
+
+<!-- HERO MOCKUP -->
+<div class="mockup">
+  <div class="mockup-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Hero — 全屏，100vh</span></div>
+  <div class="mockup-body">
+    <div class="hero">
+      <div class="bg">
+        <div class="noise"></div>
+        <div class="glow"></div>
+        <div class="line-h"></div><div class="line-h"></div><div class="line-h"></div><div class="line-h"></div>
+        <div class="letter">从</div>
+        <div class="vignette"></div>
+      </div>
+      <div class="content">
+        <div class="meta">
+          <span class="date">2026.05.01</span>
+          <div class="sep"></div>
+          <span class="cat">技术</span>
+        </div>
+        <h1 class="title">从零搭建一个炫酷博客</h1>
+        <p class="desc">如何用现代技术栈打造一个令人惊叹的个人博客</p>
+        <div class="tags">
+          <span>Astro</span><span>React</span><span>GSAP</span><span>Three.js</span>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="arrow"></div>
+      </div>
+      <div class="progress"><div class="fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT MOCKUP -->
+<div class="mockup">
+  <div class="mockup-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Content — TOC + 正文</span></div>
+  <div class="mockup-body">
+    <div class="content-layout">
+      <div class="toc-panel">
+        <div class="track"><div class="track-fill"></div></div>
+        <div class="toc-label">目录</div>
+        <div class="toc-link active">为什么写这个博客</div>
+        <div class="toc-link">技术栈选择</div>
+        <div class="toc-link depth-3">前端框架</div>
+        <div class="toc-link depth-3">动画引擎</div>
+        <div class="toc-link">核心代码</div>
+        <div class="toc-link">性能优化</div>
+        <div class="toc-link">设计哲学</div>
+        <div class="toc-link">总结</div>
+      </div>
+      <div class="prose-area">
+        <h2>为什么写这个博客</h2>
+        <p class="drop-cap">在这个教程中，我将带你从零搭建一个视觉效果拉满的个人博客。我们会用到 Astro、React、GSAP 等现代技术栈，打造一个真正令人惊叹的数字花园。每一个动画都经过精心设计，不是为了炫技，而是为了提升用户体验。</p>
+        <p>Astro 的岛屿架构确保只有交互组件加载 JS，首屏性能极佳。配合 Lenis 平滑滚动和 GSAP ScrollTrigger，我们实现了丝滑的滚动体验。</p>
+
+        <h2>技术栈选择</h2>
+        <p>我们使用的技术栈涵盖了现代前端开发的方方面面：</p>
+        <div class="code-mock">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="code-line w80"></div>
+          <div class="code-line w60"></div>
+          <div class="code-line w80"></div>
+          <div class="code-line w45"></div>
+        </div>
+
+        <h2>设计哲学</h2>
+        <blockquote><p>少即是多，克制即是高级。</p></blockquote>
+        <p>每一个动画都经过精心设计——不是为了炫技，而是为了提升用户体验。点到即止的微交互，恰到好处的留白，让内容成为主角。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM MOCKUP -->
+<div class="mockup">
+  <div class="mockup-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Bottom — 分享 + 相关文章</span></div>
+  <div class="mockup-body">
+    <div class="article-bottom">
+      <div class="share-section">
+        <span class="share-label">分享</span>
+        <div class="share-icon">𝕏</div>
+        <div class="share-icon">微</div>
+        <div class="share-icon">⎘</div>
+      </div>
+      <div class="related-label">继续阅读</div>
+      <div class="related-grid">
+        <div class="related-card">
+          <span class="rc">技术</span>
+          <h5>React Server Components 深度解析</h5>
+          <p>深入理解 RSC 的工作原理和最佳实践</p>
+        </div>
+        <div class="related-card">
+          <span class="rc">生活</span>
+          <h5>京都的雨季</h5>
+          <p>在雨中漫步的那些日子</p>
+        </div>
+        <div class="related-card">
+          <span class="rc">随笔</span>
+          <h5>我为什么开始写博客</h5>
+          <p>写作是一种思考的方式</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin: 32px 0; padding: 24px; background: rgba(255,255,255,0.02); border-radius: 12px;">
+  <h4 style="margin: 0 0 12px; font-size: 14px; color: rgba(255,255,255,0.7);">设计语言：黑白灰阶</h4>
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px;">
+    <div style="height: 40px; border-radius: 6px; background: #fff; display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-family:'JetBrains Mono',monospace;">#fff 主标题</div>
+    <div style="height: 40px; border-radius: 6px; background: rgba(255,255,255,0.85); display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-family:'JetBrains Mono',monospace;">85% 副标题</div>
+    <div style="height: 40px; border-radius: 6px; background: rgba(255,255,255,0.5); display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-family:'JetBrains Mono',monospace;">50% 正文</div>
+    <div style="height: 40px; border-radius: 6px; background: rgba(255,255,255,0.2); display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-family:'JetBrains Mono',monospace;">20% 辅助</div>
+    <div style="height: 40px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;">4% 分隔线</div>
+  </div>
+  <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin: 0; line-height: 1.7;">
+    纯黑白灰阶，零彩色。靠<strong>排版层次</strong>（字号、字重、间距）和<strong>光影对比</strong>（透明度梯度、发光、暗角）营造氛围。<br>
+    装饰字母、噪声纹理、水平线——都是黑白色系内的细节丰富度。
+  </p>
+</div>

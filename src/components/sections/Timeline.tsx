@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Badge from '../ui/Badge';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface TimelinePost {
@@ -62,7 +64,7 @@ export default function Timeline({ posts = defaultPosts }: TimelineProps) {
           {posts.map((post) => (
             <a
               key={post.slug}
-              href={`/blog/${post.slug}`}
+              href={`${base}/blog/${post.slug}`}
               className="timeline-item opacity-0 block mb-10 last:mb-0 group"
             >
               {/* Dot */}

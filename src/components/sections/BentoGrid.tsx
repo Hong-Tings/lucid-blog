@@ -6,6 +6,8 @@ import { useMagnetic } from '../effects/useMagnetic';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 interface BentoItem {
   title?: string;
   content: string;
@@ -24,7 +26,7 @@ const items: BentoItem[] = [
     content: '如何用 Three.js 做一个粒子宇宙',
     sub: '2026.05.01 · 技术',
     span: 'md:col-span-2',
-    link: '/blog',
+    link: `${base}/blog`,
   },
   {
     emoji: '🎵',
@@ -32,25 +34,16 @@ const items: BentoItem[] = [
     sub: 'Midnight City — M83',
   },
   {
-    title: '摄影',
-    content: '用镜头记录世界的瞬间',
-    sub: '5 组作品 →',
-    link: '/gallery',
-    image: '/images/bento-gallery.jpg',  // ← 替换为你的照片
-    imageAlt: '摄影作品',
-    darkOverlay: true,
-  },
-  {
     emoji: '🎮',
     content: '在玩',
     sub: 'Elden Ring · 塞尔达',
   },
   {
-    title: '关于我',
-    content: '全栈开发者 / 开源爱好者 / 摄影入门选手',
+    title: '成长',
+    content: '从 Hello World 到独立开发者',
+    sub: '看看我的成长轨迹 →',
+    link: `${base}/growth`,
     span: 'md:col-span-2',
-    link: '/about',
-    // image: '/images/bento-about.jpg',  // ← 可选：取消注释添加背景图
   },
 ];
 

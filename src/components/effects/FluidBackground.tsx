@@ -948,18 +948,24 @@ export default function FluidBackground({ delaySplash = false }: Props) {
         setTimeout(doInitialSplash, 500);
       };
 
-      // 监听 preloader-done 事件
-      const onPreloaderDone = () => {
+      // If preloader is already gone (e.g. View Transition back-navigation), splash immediately
+      var preloaderEl = document.getElementById('preloader');
+      if (!preloaderEl || preloaderEl.style.display === 'none') {
         splashOnce();
-        window.removeEventListener('preloader-done', onPreloaderDone);
-      };
-      window.addEventListener('preloader-done', onPreloaderDone);
+      } else {
+        // Wait for preloader animation to finish
+        const onPreloaderDone = () => {
+          splashOnce();
+          window.removeEventListener('preloader-done', onPreloaderDone);
+        };
+        window.addEventListener('preloader-done', onPreloaderDone);
 
-      // 兜底：最多等 5 秒
-      setTimeout(() => {
-        window.removeEventListener('preloader-done', onPreloaderDone);
-        splashOnce();
-      }, 5000);
+        // Fallback: max 5 seconds
+        setTimeout(() => {
+          window.removeEventListener('preloader-done', onPreloaderDone);
+          splashOnce();
+        }, 5000);
+      }
     } else {
       doInitialSplash();
     }

@@ -1,0 +1,156 @@
+<h2>背景模式创新方向</h2>
+<p class="subtitle">不只是换色——每个页面的视觉形态完全不同的概念演示</p>
+
+<style>
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .demo-card { border-radius: 14px; overflow: hidden; background: #060606; position: relative; height: 260px; }
+  .demo-card .label { position: absolute; bottom: 12px; left: 16px; font-size: 13px; color: rgba(255,255,255,0.7); z-index: 2; }
+  .demo-card .label small { display: block; font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  /* A: 星座连线 */
+  .constellation { position: absolute; inset: 0; }
+  .constellation .star { position: absolute; width: 3px; height: 3px; background: rgba(212,165,116,0.8); border-radius: 50%; box-shadow: 0 0 6px rgba(212,165,116,0.4); animation: twinkle 3s ease-in-out infinite; }
+  .constellation .star:nth-child(2) { animation-delay: 0.5s; }
+  .constellation .star:nth-child(3) { animation-delay: 1s; }
+  .constellation .star:nth-child(4) { animation-delay: 1.5s; }
+  .constellation .star:nth-child(5) { animation-delay: 2s; }
+  .constellation .star:nth-child(6) { animation-delay: 0.8s; }
+  .constellation .star:nth-child(7) { animation-delay: 1.3s; }
+  .constellation .star:nth-child(8) { animation-delay: 0.3s; }
+  .constellation svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .constellation svg line { stroke: rgba(212,165,116,0.15); stroke-width: 1; stroke-dasharray: 4 4; animation: dash-flow 4s linear infinite; }
+  @keyframes twinkle { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+  @keyframes dash-flow { to { stroke-dashoffset: -16; } }
+
+  /* B: 墨迹晕染 */
+  .ink-wash { position: absolute; inset: 0; }
+  .ink-wash .blob { position: absolute; border-radius: 50%; filter: blur(40px); animation: ink-breathe 8s ease-in-out infinite; }
+  .ink-wash .blob:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 15%; background: rgba(212,165,116,0.06); animation-delay: 0s; }
+  .ink-wash .blob:nth-child(2) { width: 160px; height: 160px; top: 40%; right: 10%; background: rgba(180,140,100,0.05); animation-delay: 2s; }
+  .ink-wash .blob:nth-child(3) { width: 180px; height: 180px; bottom: 10%; left: 40%; background: rgba(200,160,120,0.04); animation-delay: 4s; }
+  .ink-wash .stroke { position: absolute; top: 30%; left: 10%; width: 80%; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,165,116,0.12), transparent); animation: stroke-fade 6s ease-in-out infinite; }
+  @keyframes ink-breathe { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 1; } }
+  @keyframes stroke-fade { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+  /* C: 等高线地形 */
+  .topo { position: absolute; inset: 0; }
+  .topo .contour { position: absolute; border: 1px solid rgba(212,165,116,0.06); border-radius: 50%; animation: topo-drift 20s linear infinite; }
+  .topo .contour:nth-child(1) { width: 300px; height: 200px; top: -20px; left: -40px; }
+  .topo .contour:nth-child(2) { width: 250px; height: 160px; top: 30px; left: 0px; animation-delay: -3s; }
+  .topo .contour:nth-child(3) { width: 200px; height: 130px; top: 70px; left: 30px; animation-delay: -6s; }
+  .topo .contour:nth-child(4) { width: 150px; height: 100px; top: 110px; left: 60px; animation-delay: -9s; }
+  .topo .contour:nth-child(5) { width: 350px; height: 180px; top: 40px; right: -60px; animation-delay: -2s; }
+  .topo .contour:nth-child(6) { width: 280px; height: 150px; top: 80px; right: -30px; animation-delay: -5s; }
+  @keyframes topo-drift { 0% { transform: translateY(0); opacity: 0.5; } 50% { opacity: 1; } 100% { transform: translateY(-20px); opacity: 0.5; } }
+
+  /* D: 打字机字符雨 */
+  .char-rain { position: absolute; inset: 0; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(212,165,116,0.15); }
+  .char-rain .col { position: absolute; top: -20%; writing-mode: vertical-rl; animation: rain-fall linear infinite; }
+  @keyframes rain-fall { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
+</style>
+
+<div class="demo-grid">
+  <!-- A: 星座连线 -->
+  <div class="demo-card">
+    <div class="constellation">
+      <div class="star" style="top:15%;left:20%"></div>
+      <div class="star" style="top:25%;left:55%"></div>
+      <div class="star" style="top:10%;left:80%"></div>
+      <div class="star" style="top:50%;left:35%"></div>
+      <div class="star" style="top:45%;left:70%"></div>
+      <div class="star" style="top:70%;left:25%"></div>
+      <div class="star" style="top:65%;left:60%"></div>
+      <div class="star" style="top:80%;left:85%"></div>
+      <svg>
+        <line x1="20%" y1="15%" x2="55%" y2="25%"/>
+        <line x1="55%" y1="25%" x2="80%" y2="10%"/>
+        <line x1="20%" y1="15%" x2="35%" y2="50%"/>
+        <line x1="35%" y1="50%" x2="70%" y2="45%"/>
+        <line x1="55%" y1="25%" x2="70%" y2="45%"/>
+        <line x1="35%" y1="50%" x2="25%" y2="70%"/>
+        <line x1="70%" y1="45%" x2="60%" y2="65%"/>
+        <line x1="25%" y1="70%" x2="60%" y2="65%"/>
+        <line x1="60%" y1="65%" x2="85%" y2="80%"/>
+      </svg>
+    </div>
+    <div class="label">星座连线<small>适合：友链、关于页面 — 节点+连线的网络感</small></div>
+  </div>
+
+  <!-- B: 墨迹晕染 -->
+  <div class="demo-card">
+    <div class="ink-wash">
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="stroke"></div>
+    </div>
+    <div class="label">墨迹晕染<small>适合：博客、随笔 — 水墨质感，文艺气息</small></div>
+  </div>
+
+  <!-- C: 等高线地形 -->
+  <div class="demo-card">
+    <div class="topo">
+      <div class="contour"></div>
+      <div class="contour"></div>
+      <div class="contour"></div>
+      <div class="contour"></div>
+      <div class="contour"></div>
+      <div class="contour"></div>
+    </div>
+    <div class="label">等高线地形<small>适合：项目、技术页 — 等高线+缓慢漂移的地理感</small></div>
+  </div>
+
+  <!-- D: 字符雨 -->
+  <div class="demo-card">
+    <div class="char-rain">
+      <div class="col" style="left:5%;animation-duration:8s">{ } const</div>
+      <div class="col" style="left:15%;animation-duration:10s;animation-delay:1s">import react</div>
+      <div class="col" style="left:28%;animation-duration:7s;animation-delay:2s">function()</div>
+      <div class="col" style="left:40%;animation-duration:9s;animation-delay:0.5s">=> void</div>
+      <div class="col" style="left:52%;animation-duration:11s;animation-delay:3s">async await</div>
+      <div class="col" style="left:65%;animation-duration:8s;animation-delay:1.5s">npm run</div>
+      <div class="col" style="left:78%;animation-duration:10s;animation-delay:2.5s">git push</div>
+      <div class="col" style="left:90%;animation-duration:7s;animation-delay:0.8s">.tsx .astro</div>
+    </div>
+    <div class="label">代码字符雨<small>适合：技术博客、项目页 — 程序员浪漫的代码粒子</small></div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px;">
+  <h3>更多方向</h3>
+  <div class="demo-grid">
+    <!-- E: 波纹涟漪 -->
+    <div class="demo-card" style="display:flex;align-items:center;justify-content:center;">
+      <div style="position:relative;width:100%;height:100%;">
+        <div style="position:absolute;top:50%;left:50%;width:60px;height:60px;border:1px solid rgba(212,165,116,0.1);border-radius:50%;transform:translate(-50%,-50%);animation:ripple 4s ease-out infinite;"></div>
+        <div style="position:absolute;top:50%;left:50%;width:60px;height:60px;border:1px solid rgba(212,165,116,0.08);border-radius:50%;transform:translate(-50%,-50%);animation:ripple 4s ease-out infinite 1s;"></div>
+        <div style="position:absolute;top:50%;left:50%;width:60px;height:60px;border:1px solid rgba(212,165,116,0.05);border-radius:50%;transform:translate(-50%,-50%);animation:ripple 4s ease-out infinite 2s;"></div>
+        <div style="position:absolute;top:50%;left:50%;width:60px;height:60px;border:1px solid rgba(212,165,116,0.03);border-radius:50%;transform:translate(-50%,-50%);animation:ripple 4s ease-out infinite 3s;"></div>
+      </div>
+      <div class="label" style="bottom:12px;">涟漪扩散<small>适合：留言板、Now — 从中心向外扩散的禅意</small></div>
+    </div>
+    <style>@keyframes ripple { 0% { width:60px;height:60px;opacity:1; } 100% { width:400px;height:400px;opacity:0; } }</style>
+
+    <!-- F: 粒子连线 -->
+    <div class="demo-card" style="display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <svg width="100%" height="100%" style="position:absolute;inset:0;">
+        <circle cx="15%" cy="20%" r="2" fill="rgba(212,165,116,0.5)"><animate attributeName="cy" values="20%;22%;20%" dur="4s" repeatCount="indefinite"/></circle>
+        <circle cx="40%" cy="35%" r="1.5" fill="rgba(212,165,116,0.4)"><animate attributeName="cx" values="40%;42%;40%" dur="5s" repeatCount="indefinite"/></circle>
+        <circle cx="70%" cy="25%" r="2" fill="rgba(212,165,116,0.5)"><animate attributeName="cy" values="25%;23%;25%" dur="3.5s" repeatCount="indefinite"/></circle>
+        <circle cx="85%" cy="55%" r="1.5" fill="rgba(212,165,116,0.4)"><animate attributeName="cx" values="85%;83%;85%" dur="4.5s" repeatCount="indefinite"/></circle>
+        <circle cx="25%" cy="65%" r="2" fill="rgba(212,165,116,0.5)"><animate attributeName="cy" values="65%;63%;65%" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="60%" cy="70%" r="1.5" fill="rgba(212,165,116,0.4)"><animate attributeName="cx" values="60%;62%;60%" dur="5.5s" repeatCount="indefinite"/></circle>
+        <circle cx="50%" cy="50%" r="2.5" fill="rgba(212,165,116,0.6)"><animate attributeName="cy" values="50%;48%;50%" dur="6s" repeatCount="indefinite"/></circle>
+        <line x1="15%" y1="20%" x2="40%" y2="35%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="40%" y1="35%" x2="70%" y2="25%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="40%" y1="35%" x2="50%" y2="50%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="50%" y1="50%" x2="25%" y2="65%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="50%" y1="50%" x2="60%" y2="70%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="70%" y1="25%" x2="85%" y2="55%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="85%" y1="55%" x2="60%" y2="70%" stroke="rgba(212,165,116,0.08)" stroke-width="1"/>
+        <line x1="15%" y1="20%" x2="25%" y2="65%" stroke="rgba(212,165,116,0.06)" stroke-width="1"/>
+      </svg>
+      <div class="label" style="bottom:12px;">粒子网络<small>适合：技术栈、项目展示 — 粒子缓慢漂移+自动连线</small></div>
+    </div>
+  </div>
+</div>

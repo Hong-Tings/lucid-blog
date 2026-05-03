@@ -6,7 +6,7 @@ import { SITE_TITLE, NAV_ITEMS } from '../../lib/constants';
 
 <header id="site-header" data-scrolled="false" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent">
   <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="text-lg font-display italic tracking-tight transition-colors">
+    <a href={import.meta.env.BASE_URL} class="text-lg font-display italic tracking-tight transition-colors">
       {SITE_TITLE}
     </a>
     <div class="flex items-center gap-4">
@@ -28,36 +28,61 @@ import { SITE_TITLE, NAV_ITEMS } from '../../lib/constants';
 </header>
 
 <style>
-  #site-header[data-scrolled="false"] a { color: white; }
-  #site-header[data-scrolled="false"] a:hover { color: #d4a574; }
-  #site-header[data-scrolled="false"] :global(.group span[class*="bg-primary"]) { background: white; }
-  #site-header[data-scrolled="false"] .header-action-btn {
+  /* Dark mode (homepage) — transparent = white text */
+  .dark #site-header[data-scrolled="false"] a { color: white; }
+  .dark #site-header[data-scrolled="false"] a:hover { color: #d4a574; }
+  .dark #site-header[data-scrolled="false"] :global(.group span[class*="bg-primary"]) { background: white; }
+  .dark #site-header[data-scrolled="false"] .header-action-btn {
     border-color: rgba(255,255,255,0.2);
     color: rgba(255,255,255,0.7);
   }
-  #site-header[data-scrolled="false"] .header-action-btn:hover {
+  .dark #site-header[data-scrolled="false"] .header-action-btn:hover {
     border-color: rgba(255,255,255,0.4);
     color: white;
   }
-  #site-header[data-scrolled="false"] :global(button[aria-label="Toggle menu"]) {
+  .dark #site-header[data-scrolled="false"] :global(button[aria-label="Toggle menu"]) {
     color: white;
   }
-  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]) {
+  .dark #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]) {
     color: white;
   }
-  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"] svg) {
+  .dark #site-header[data-scrolled="false"] :global(button[aria-label*="切换"] svg) {
     color: white;
   }
-  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]:hover) {
+  .dark #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]:hover) {
     background: rgba(255,255,255,0.1);
   }
 
+  /* Light mode (sub-pages) — transparent = dark text */
+  #site-header[data-scrolled="false"] a { color: var(--tw-warm-700); }
+  #site-header[data-scrolled="false"] a:hover { color: var(--tw-warm-500); }
+  #site-header[data-scrolled="false"] .header-action-btn {
+    border-color: var(--tw-warm-200);
+    color: var(--tw-warm-400);
+  }
+  #site-header[data-scrolled="false"] .header-action-btn:hover {
+    border-color: var(--tw-warm-300);
+    color: var(--tw-warm-600);
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]) {
+    color: var(--tw-warm-500);
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"] svg) {
+    color: var(--tw-warm-500);
+  }
+  #site-header[data-scrolled="false"] :global(button[aria-label*="切换"]:hover) {
+    background: var(--tw-warm-100);
+  }
+
+  /* Scrolled — light mode */
   #site-header[data-scrolled="true"] a { color: var(--tw-warm-800); }
-  .dark #site-header[data-scrolled="true"] a { color: white; }
   #site-header[data-scrolled="true"] .header-action-btn {
     border-color: var(--tw-warm-200);
     color: var(--tw-warm-400);
   }
+
+  /* Scrolled — dark mode */
+  .dark #site-header[data-scrolled="true"] a { color: white; }
   .dark #site-header[data-scrolled="true"] .header-action-btn {
     border-color: var(--tw-warm-700);
     color: var(--tw-warm-500);

@@ -1,0 +1,197 @@
+<h2>让人眼前一亮的背景方案</h2>
+<p class="subtitle">不是装饰——是沉浸式视觉体验，每个页面进入就是一个不同的世界</p>
+
+<style>
+  .dramatic-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .dramatic-card { border-radius: 14px; overflow: hidden; background: #060606; position: relative; height: 280px; cursor: pointer; transition: transform 0.3s; }
+  .dramatic-card:hover { transform: scale(1.02); }
+  .dramatic-card .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); z-index: 10; }
+  .dramatic-card .info h4 { font-size: 15px; color: rgba(255,255,255,0.9); margin: 0 0 4px; }
+  .dramatic-card .info p { font-size: 11px; color: rgba(255,255,255,0.45); margin: 0; }
+  .dramatic-card .tag { position: absolute; top: 12px; right: 12px; font-size: 10px; padding: 3px 8px; border-radius: 20px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); z-index: 10; }
+
+  /* ========== 1. 极光 Aurora ========== */
+  .aurora-wrap { position: absolute; inset: 0; overflow: hidden; }
+  .aurora-band { position: absolute; width: 200%; height: 60%; left: -50%; filter: blur(60px); opacity: 0.5; mix-blend-mode: screen; }
+  .aurora-band:nth-child(1) { top: -10%; background: linear-gradient(90deg, transparent, rgba(80,200,160,0.4), rgba(100,140,220,0.3), transparent); animation: aurora1 8s ease-in-out infinite; }
+  .aurora-band:nth-child(2) { top: 10%; background: linear-gradient(90deg, transparent, rgba(160,100,220,0.3), rgba(220,100,160,0.2), transparent); animation: aurora2 10s ease-in-out infinite; }
+  .aurora-band:nth-child(3) { top: 25%; background: linear-gradient(90deg, transparent, rgba(100,200,220,0.25), rgba(80,160,200,0.2), transparent); animation: aurora3 12s ease-in-out infinite; }
+  @keyframes aurora1 { 0%,100%{transform:translateX(-10%) skewX(-5deg)} 50%{transform:translateX(10%) skewX(5deg)} }
+  @keyframes aurora2 { 0%,100%{transform:translateX(5%) skewX(3deg)} 50%{transform:translateX(-15%) skewX(-3deg)} }
+  @keyframes aurora3 { 0%,100%{transform:translateX(-5%) skewX(2deg)} 50%{transform:translateX(8%) skewX(-4deg)} }
+
+  /* ========== 2. 流体金属 Liquid Chrome ========== */
+  .chrome-wrap { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%); }
+  .chrome-blob { position: absolute; border-radius: 50%; filter: blur(50px); mix-blend-mode: screen; }
+  .chrome-blob:nth-child(1) { width: 300px; height: 300px; top: -20%; left: -10%; background: radial-gradient(circle, rgba(255,200,150,0.2), transparent 70%); animation: chrome1 6s ease-in-out infinite; }
+  .chrome-blob:nth-child(2) { width: 250px; height: 250px; bottom: -10%; right: -5%; background: radial-gradient(circle, rgba(200,170,255,0.15), transparent 70%); animation: chrome2 8s ease-in-out infinite; }
+  .chrome-blob:nth-child(3) { width: 200px; height: 200px; top: 30%; left: 50%; background: radial-gradient(circle, rgba(150,220,255,0.12), transparent 70%); animation: chrome3 7s ease-in-out infinite; }
+  .chrome-sheen { position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 55%, transparent 70%); animation: sheen-move 5s ease-in-out infinite; }
+  @keyframes chrome1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,30px) scale(1.1)} 66%{transform:translate(-20px,50px) scale(0.9)} }
+  @keyframes chrome2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-30px,-20px) scale(1.15)} 66%{transform:translate(20px,-40px) scale(0.95)} }
+  @keyframes chrome3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.2)} }
+  @keyframes sheen-move { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+  /* ========== 3. 粒子星河 Starfield ========== */
+  .starfield { position: absolute; inset: 0; perspective: 500px; overflow: hidden; }
+  .star-layer { position: absolute; inset: -50%; animation: star-fly linear infinite; }
+  .star-layer:nth-child(1) { animation-duration: 6s; }
+  .star-layer:nth-child(2) { animation-duration: 10s; }
+  .star-layer:nth-child(3) { animation-duration: 15s; }
+  .star-dot { position: absolute; background: rgba(212,165,116,0.8); border-radius: 50%; }
+  @keyframes star-fly { 0%{transform:translateZ(0) scale(1)} 100%{transform:translateZ(200px) scale(2)} }
+
+  /* ========== 4. 故障艺术 Glitch ========== */
+  .glitch-wrap { position: absolute; inset: 0; overflow: hidden; }
+  .glitch-layer { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212,165,116,0.02) 2px, rgba(212,165,116,0.02) 4px); }
+  .glitch-bar { position: absolute; left: 0; right: 0; height: 3px; background: rgba(212,165,116,0.15); animation: glitch-slide 4s steps(1) infinite; mix-blend-mode: screen; }
+  .glitch-bar:nth-child(2) { height: 2px; background: rgba(116,165,212,0.1); animation-delay: 1.5s; animation-duration: 3s; }
+  .glitch-bar:nth-child(3) { height: 4px; background: rgba(165,116,212,0.08); animation-delay: 2.8s; animation-duration: 5s; }
+  .glitch-block { position: absolute; height: 20px; background: rgba(212,165,116,0.04); animation: glitch-block 6s steps(1) infinite; }
+  @keyframes glitch-slide { 0%{top:0%;opacity:0} 5%{opacity:1} 10%{top:100%;opacity:0} 100%{top:100%;opacity:0} }
+  @keyframes glitch-block { 0%,90%,100%{opacity:0;width:0} 92%{opacity:1;width:60%;left:10%} 94%{opacity:0} 96%{opacity:1;width:40%;left:50%} 98%{opacity:0} }
+
+  /* ========== 5. 万花筒 Kaleidoscope ========== */
+  .kaleido-wrap { position: absolute; inset: 0; overflow: hidden; display:flex;align-items:center;justify-content:center; }
+  .kaleido-ring { position: absolute; border: 1px solid rgba(212,165,116,0.06); border-radius: 50%; animation: kaleido-spin linear infinite; }
+  .kaleido-ring:nth-child(1) { width: 80px; height: 80px; animation-duration: 20s; border-color: rgba(212,165,116,0.08); }
+  .kaleido-ring:nth-child(2) { width: 140px; height: 140px; animation-duration: 30s; animation-direction: reverse; border-color: rgba(180,140,100,0.06); }
+  .kaleido-ring:nth-child(3) { width: 200px; height: 200px; animation-duration: 25s; border-color: rgba(200,160,120,0.05); }
+  .kaleido-ring:nth-child(4) { width: 260px; height: 260px; animation-duration: 35s; animation-direction: reverse; border-color: rgba(160,130,100,0.04); }
+  .kaleido-ring:nth-child(5) { width: 320px; height: 320px; animation-duration: 40s; border-color: rgba(212,165,116,0.03); }
+  .kaleido-dot { position: absolute; width: 4px; height: 4px; background: rgba(212,165,116,0.3); border-radius: 50%; }
+  @keyframes kaleido-spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+  /* ========== 6. 涟漪矩阵 Ripple Grid ========== */
+  .ripple-grid { position: absolute; inset: 0; overflow: hidden; }
+  .ripple-ring { position: absolute; top: 50%; left: 50%; border: 1px solid rgba(212,165,116,0.08); border-radius: 50%; transform: translate(-50%, -50%); animation: ripple-expand 6s ease-out infinite; }
+  .ripple-ring:nth-child(2) { animation-delay: 1s; }
+  .ripple-ring:nth-child(3) { animation-delay: 2s; }
+  .ripple-ring:nth-child(4) { animation-delay: 3s; }
+  .ripple-ring:nth-child(5) { animation-delay: 4s; }
+  .ripple-ring:nth-child(6) { animation-delay: 5s; }
+  .ripple-grid .grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(212,165,116,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,165,116,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+  @keyframes ripple-expand { 0%{width:20px;height:20px;opacity:0.8} 100%{width:500px;height:500px;opacity:0} }
+</style>
+
+<div class="dramatic-grid">
+  <!-- 1. 极光 -->
+  <div class="dramatic-card" data-choice="aurora" onclick="toggleSelect(this)">
+    <div class="aurora-wrap">
+      <div class="aurora-band"></div>
+      <div class="aurora-band"></div>
+      <div class="aurora-band"></div>
+    </div>
+    <div class="tag">CSS Only</div>
+    <div class="info"><h4>极光 Aurora</h4><p>多色光带在屏幕顶部流动，色彩从青绿到紫红渐变，缓慢漂移</p></div>
+  </div>
+
+  <!-- 2. 流体金属 -->
+  <div class="dramatic-card" data-choice="chrome" onclick="toggleSelect(this)">
+    <div class="chrome-wrap">
+      <div class="chrome-blob"></div>
+      <div class="chrome-blob"></div>
+      <div class="chrome-blob"></div>
+      <div class="chrome-sheen"></div>
+    </div>
+    <div class="tag">CSS Only</div>
+    <div class="info"><h4>流体金属 Liquid Chrome</h4><p>金属质感的光斑漂移+高光扫过，高级感拉满</p></div>
+  </div>
+
+  <!-- 3. 粒子星河 -->
+  <div class="dramatic-card" data-choice="starfield" onclick="toggleSelect(this)">
+    <div class="starfield">
+      <div class="star-layer" style="animation-duration:6s;">
+        <div class="star-dot" style="width:2px;height:2px;top:10%;left:20%;opacity:0.8"></div>
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:30%;left:60%;opacity:0.6"></div>
+        <div class="star-dot" style="width:2px;height:2px;top:50%;left:80%;opacity:0.7"></div>
+        <div class="star-dot" style="width:1px;height:1px;top:70%;left:40%;opacity:0.5"></div>
+        <div class="star-dot" style="width:2px;height:2px;top:20%;left:90%;opacity:0.6"></div>
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:80%;left:15%;opacity:0.7"></div>
+      </div>
+      <div class="star-layer" style="animation-duration:10s;">
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:15%;left:35%;opacity:0.5"></div>
+        <div class="star-dot" style="width:2px;height:2px;top:45%;left:75%;opacity:0.4"></div>
+        <div class="star-dot" style="width:1px;height:1px;top:65%;left:25%;opacity:0.3"></div>
+        <div class="star-dot" style="width:2px;height:2px;top:85%;left:55%;opacity:0.5"></div>
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:35%;left:10%;opacity:0.4"></div>
+      </div>
+      <div class="star-layer" style="animation-duration:15s;">
+        <div class="star-dot" style="width:1px;height:1px;top:25%;left:50%;opacity:0.3"></div>
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:55%;left:30%;opacity:0.25"></div>
+        <div class="star-dot" style="width:1px;height:1px;top:75%;left:70%;opacity:0.2"></div>
+        <div class="star-dot" style="width:1.5px;height:1.5px;top:40%;left:85%;opacity:0.3"></div>
+      </div>
+    </div>
+    <div class="tag">CSS + 少量 JS</div>
+    <div class="info"><h4>粒子星河 Starfield</h4><p>多层星星从远处飞向眼前，深邃宇宙感</p></div>
+  </div>
+
+  <!-- 4. 故障艺术 -->
+  <div class="dramatic-card" data-choice="glitch" onclick="toggleSelect(this)">
+    <div class="glitch-wrap">
+      <div class="glitch-layer"></div>
+      <div class="glitch-bar"></div>
+      <div class="glitch-bar"></div>
+      <div class="glitch-bar"></div>
+      <div class="glitch-block"></div>
+    </div>
+    <div class="tag">CSS Only</div>
+    <div class="info"><h4>故障艺术 Glitch</h4><p>扫描线+随机故障条纹，赛博朋克味</p></div>
+  </div>
+
+  <!-- 5. 万花筒 -->
+  <div class="dramatic-card" data-choice="kaleido" onclick="toggleSelect(this)">
+    <div class="kaleido-wrap">
+      <div class="kaleido-ring"></div>
+      <div class="kaleido-ring"></div>
+      <div class="kaleido-ring"></div>
+      <div class="kaleido-ring"></div>
+      <div class="kaleido-ring"></div>
+    </div>
+    <div class="tag">CSS Only</div>
+    <div class="info"><h4>万花筒 Kaleidoscope</h4><p>同心圆环交错旋转，几何迷幻感</p></div>
+  </div>
+
+  <!-- 6. 涟漪矩阵 -->
+  <div class="dramatic-card" data-choice="ripple" onclick="toggleSelect(this)">
+    <div class="ripple-grid">
+      <div class="grid-lines"></div>
+      <div class="ripple-ring"></div>
+      <div class="ripple-ring"></div>
+      <div class="ripple-ring"></div>
+      <div class="ripple-ring"></div>
+      <div class="ripple-ring"></div>
+      <div class="ripple-ring"></div>
+    </div>
+    <div class="tag">CSS Only</div>
+    <div class="info"><h4>涟漪矩阵 Ripple Grid</h4><p>网格底纹+从中心持续扩散的涟漪波</p></div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:32px;">
+  <h3>你想要哪种程度的改变？</h3>
+  <div class="options" style="margin-top:12px;">
+    <div class="option" data-choice="replace-all" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>全部替换</h3>
+        <p>把现有 10 个主题全部换成全新的、每个形态不同的方案</p>
+      </div>
+    </div>
+    <div class="option" data-choice="hybrid" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>混合增强</h3>
+        <p>保留部分现有主题作为"安静模式"，给重点页面加上震撼效果</p>
+      </div>
+    </div>
+    <div class="option" data-choice="per-page" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>按页面定制</h3>
+        <p>不预设主题数量，为每个页面单独设计最适合它的背景效果</p>
+      </div>
+    </div>
+  </div>
+</div>

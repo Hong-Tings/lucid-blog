@@ -6,7 +6,6 @@ import ShareButtons from '../../components/blog/ShareButtons';
 import RelatedPosts from '../../components/blog/RelatedPosts';
 import ReadingProgress from '../../components/blog/ReadingProgress';
 import EnhanceCodeBlocks from '../../components/effects/EnhanceCodeBlocks.astro';
-import PageBackground from '../../components/effects/PageBackground.astro';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../../lib/utils';
 
@@ -24,69 +23,258 @@ const allPosts = await getCollection('blog');
 const relatedData = allPosts
   .filter((p) => !p.data.draft)
   .map((p) => ({ title: p.data.title, description: p.data.description, slug: p.slug, category: p.data.category }));
+
+const gradients: Record<string, string> = {
+  '技术': 'from-sky-200/60 via-cyan-100/40 to-blue-50/30 dark:from-sky-900/30 dark:via-cyan-900/20 dark:to-blue-900/10',
+  '生活': 'from-rose-200/60 via-orange-100/40 to-amber-50/30 dark:from-rose-900/30 dark:via-orange-900/20 dark:to-amber-900/10',
+  '随笔': 'from-violet-200/60 via-purple-100/40 to-indigo-50/30 dark:from-violet-900/30 dark:via-purple-900/20 dark:to-indigo-900/10',
+  '创作': 'from-emerald-200/60 via-teal-100/40 to-cyan-50/30 dark:from-emerald-900/30 dark:via-teal-900/20 dark:to-cyan-900/10',
+};
+const gradient = gradients[post.data.category] || 'from-warm-200/60 to-warm-100/30 dark:from-warm-800/20 dark:to-warm-700/10';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title={`${post.data.title} — Lucid`}>
-  <PageBackground theme="focus" />
-  <article class="pt-28 pb-16 px-6 md:px-12 lg:px-24 relative overflow-hidden">
-    <div class="max-w-4xl mx-auto relative">
-      {/* Header */}
-      <header class="mb-14">
-        <div class="flex items-center gap-3 mb-5">
-          <span class="text-[10px] text-warm-400 dark:text-warm-500 font-mono tracking-wider">{formatDate(post.data.date)}</span>
-          <Badge variant="primary">{post.data.category}</Badge>
-        </div>
-        <h1 class="text-3xl md:text-5xl font-display italic tracking-tight text-warm-800 dark:text-warm-100 leading-tight">{post.data.title}</h1>
-        <p class="text-sm text-warm-500 dark:text-warm-400 mt-4 max-w-2xl">{post.data.description}</p>
-        {post.data.tags && post.data.tags.length > 0 && (
-          <div class="flex items-center gap-2 mt-3 flex-wrap">
-            {post.data.tags.map((tag: string) => (
-              <a href={`/tags/${tag}`} class="text-[10px] font-mono tracking-wider text-warm-300 dark:text-warm-600 hover:text-warm-500 dark:hover:text-warm-400 transition-colors">#{tag}</a>
-            ))}
+  {/* Reading progress */}
+  <div class="fixed top-0 left-0 right-0 z-[60]">
+    <ReadingProgress client:idle />
+  </div>
+
+  {/* Background: floating writing-themed objects */}
+  <div class="bg-objects" aria-hidden="true">
+    <svg class="bg-obj bg-obj-1" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.12">
+        <path d="M85 25L40 70L30 80L28 92L40 90L50 80L95 35L85 25Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M70 40L80 50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 70L50 80" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 3"/>
+        <circle cx="28" cy="92" r="3" fill="currentColor" opacity="0.4"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-2" viewBox="0 0 160 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.1">
+        <path d="M80 30C80 30 60 25 30 25V105C60 105 80 110 80 110" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M80 30C80 30 100 25 130 25V105C100 105 80 110 80 110" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M45 45H65" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M45 55H60" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M45 65H63" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M45 75H58" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M95 45H115" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M95 55H110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M95 65H113" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <path d="M95 75H108" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <line x1="80" y1="25" x2="80" y2="110" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-3" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.1">
+        <rect x="10" y="15" width="120" height="75" rx="6" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M10 15L70 60L130 15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 90L50 55" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M130 90L90 55" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-5" viewBox="0 0 80 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.12">
+        <path d="M15 10H65V120L40 100L15 120V10Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M30 40H55" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M30 55H50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-6" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.1">
+        <path d="M25 40H85V95C85 105 75 110 55 110C35 110 25 105 25 95V40Z" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M85 55H100C108 55 112 62 112 70C112 78 108 85 100 85H85" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M42 25C42 25 45 15 50 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <path d="M55 20C55 20 58 10 63 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <path d="M68 22C68 22 71 12 76 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-7" viewBox="0 0 60 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.1">
+        <path d="M20 15H40V125L30 145L20 125V15Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+        <line x1="20" y1="30" x2="40" y2="30" stroke="currentColor" stroke-width="2"/>
+        <line x1="20" y1="110" x2="40" y2="110" stroke="currentColor" stroke-width="2"/>
+        <path d="M30 125V145" stroke="currentColor" stroke-width="1.5"/>
+      </g>
+    </svg>
+    <svg class="bg-obj bg-obj-10" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.08">
+        <path d="M10 50C10 30 25 15 40 15V25C30 25 20 35 20 50H30V70H10V50Z" fill="currentColor"/>
+        <path d="M60 50C60 30 75 15 90 15V25C80 25 70 35 70 50H80V70H60V50Z" fill="currentColor"/>
+      </g>
+    </svg>
+  </div>
+
+  <article class="relative z-10 pt-28 pb-20 px-6 md:px-12 lg:px-16">
+    <div class="max-w-5xl mx-auto">
+
+      {/* Hero header glass card */}
+      <header class="mb-10 detail-header">
+        <div
+          class="relative overflow-hidden rounded-3xl bg-white/15 dark:bg-white/[0.04] backdrop-blur-xl border border-white/30 dark:border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_30px_rgba(0,0,0,0.25)]"
+          style="backdrop-filter: blur(40px) saturate(2) brightness(1.05); -webkit-backdrop-filter: blur(40px) saturate(2) brightness(1.05);">
+          {/* Hero gradient band */}
+          <div class={`h-40 md:h-52 bg-gradient-to-br ${gradient} relative overflow-hidden`}>
+            <div class="absolute inset-0 flex items-center justify-center gap-6 opacity-50">
+              <div class="w-20 h-20 rounded-3xl bg-white/30 dark:bg-white/[0.06] rotate-12" />
+              <div class="w-14 h-14 rounded-2xl bg-white/20 dark:bg-white/[0.05] -translate-y-6 -rotate-6" />
+              <div class="w-24 h-24 rounded-[2rem] bg-white/25 dark:bg-white/[0.05] rotate-3" />
+              <div class="w-10 h-10 rounded-full bg-white/20 dark:bg-white/[0.04] translate-y-8" />
+            </div>
           </div>
-        )}
-        <div class="flex items-center justify-between mt-6">
-          <ReadingProgress client:idle />
-          <ShareButtons title={post.data.title} client:load />
+
+          <div class="p-8 md:p-12">
+            {/* Meta */}
+            <div class="flex items-center gap-3 mb-6 flex-wrap">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-medium tracking-wider bg-warm-100 text-warm-500 dark:bg-warm-800 dark:text-warm-400">{post.data.category}</span>
+              <span class="text-[10px] text-warm-400 font-mono tracking-wider">{formatDate(post.data.date)}</span>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <>
+                  <span class="text-warm-200 dark:text-warm-700">·</span>
+                  <div class="flex items-center gap-1.5">
+                    {post.data.tags.map((tag: string) => (
+                      <span class="text-[10px] font-mono tracking-wider text-warm-300 dark:text-warm-600">#{tag}</span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Title */}
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-display italic tracking-tight text-warm-800 dark:text-warm-100 leading-[1.12] mb-6">
+              {post.data.title}
+            </h1>
+
+            {/* Description */}
+            <p class="text-base md:text-lg text-warm-500 dark:text-warm-400 leading-relaxed max-w-2xl mb-8">
+              {post.data.description}
+            </p>
+
+            {/* Actions */}
+            <div class="flex items-center justify-between pt-6 border-t border-warm-100/60 dark:border-warm-800">
+              <div class="hidden md:flex items-center gap-2 text-[10px] font-mono text-warm-300 dark:text-warm-600 tracking-wider">
+                <span>向下滑动开始阅读</span>
+                <svg class="w-3 h-3 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              </div>
+              <ShareButtons title={post.data.title} client:load />
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Divider */}
-      <div class="dramatic-divider mb-12"></div>
-
-      <div class="flex gap-16">
-        {/* TOC - sidebar on large screens */}
-        <aside class="hidden lg:block w-56 flex-shrink-0">
+      {/* Content + sidebar */}
+      <div class="flex gap-8 lg:gap-12">
+        {/* TOC sidebar */}
+        <aside class="hidden lg:block w-52 flex-shrink-0">
           <div class="sticky top-28">
-            <TableOfContents headings={headings} client:idle />
+            <div
+              class="rounded-2xl bg-white/15 dark:bg-white/[0.04] backdrop-blur-xl border border-white/30 dark:border-white/[0.06] p-5 shadow-[0_2px_16px_rgba(0,0,0,0.03)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+              style="backdrop-filter: blur(40px) saturate(2) brightness(1.05); -webkit-backdrop-filter: blur(40px) saturate(2) brightness(1.05);">
+              <TableOfContents headings={headings} client:idle />
+            </div>
           </div>
         </aside>
 
-        {/* Content */}
-        <div class="flex-1 min-w-0 prose prose-warm dark:prose-invert max-w-none
-          prose-headings:font-display prose-headings:italic prose-headings:tracking-tight
-          prose-headings:scroll-mt-28
-          prose-a:text-primary hover:prose-a:text-primary-dark dark:prose-a:text-warm-300 dark:hover:prose-a:text-white prose-a:transition-colors prose-a:no-underline hover:prose-a:underline
-          prose-code:text-primary-dark/80 dark:prose-code:text-warm-300 prose-code:bg-warm-100 dark:prose-code:bg-warm-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
-          prose-pre:bg-warm-50 dark:prose-pre:bg-[#262626] prose-pre:border prose-pre:border-warm-200 dark:prose-pre:border-warm-700 prose-pre:rounded-xl
-          prose-img:rounded-xl
-          prose-blockquote:border-primary/25 dark:prose-blockquote:border-warm-600 prose-blockquote:text-warm-500 dark:prose-blockquote:text-warm-400 prose-blockquote:not-italic prose-blockquote:font-display
-          prose-strong:text-warm-700 dark:prose-strong:text-warm-300
-          prose-p:text-warm-600 dark:prose-p:text-warm-400 prose-p:leading-[1.8]
-          prose-li:text-warm-600 dark:prose-li:text-warm-400
-          prose-h2:text-warm-800 dark:prose-h2:text-warm-200 prose-h3:text-warm-700 dark:prose-h3:text-warm-300
-        ">
-          <Content />
+        {/* Prose content */}
+        <div class="flex-1 min-w-0">
+          <div
+            class="rounded-3xl bg-white/15 dark:bg-white/[0.04] backdrop-blur-xl border border-white/30 dark:border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_30px_rgba(0,0,0,0.25)] p-8 md:p-10 lg:p-12 detail-content"
+            style="backdrop-filter: blur(40px) saturate(2) brightness(1.05); -webkit-backdrop-filter: blur(40px) saturate(2) brightness(1.05);">
+            <div class="prose prose-warm dark:prose-invert max-w-none
+              prose-headings:font-display prose-headings:italic prose-headings:tracking-tight
+              prose-headings:scroll-mt-28
+              prose-h2:text-2xl prose-h2:mt-14 prose-h2:mb-5
+              prose-h3:text-lg prose-h3:mt-10 prose-h3:mb-4
+              prose-a:text-primary hover:prose-a:text-primary-dark dark:prose-a:text-warm-300 dark:hover:prose-a:text-white prose-a:transition-colors prose-a:no-underline hover:prose-a:underline
+              prose-code:text-primary-dark/80 dark:prose-code:text-warm-300 prose-code:bg-warm-100/60 dark:prose-code:bg-warm-800/60 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
+              prose-pre:bg-warm-50/60 dark:prose-pre:bg-[#1a1a1a]/80 prose-pre:border prose-pre:border-warm-200/40 dark:prose-pre:border-warm-700/40 prose-pre:rounded-xl
+              prose-img:rounded-xl
+              prose-blockquote:border-primary/25 dark:prose-blockquote:border-warm-600 prose-blockquote:text-warm-500 dark:prose-blockquote:text-warm-400 prose-blockquote:not-italic prose-blockquote:font-display
+              prose-strong:text-warm-700 dark:prose-strong:text-warm-300
+              prose-p:text-warm-600 dark:prose-p:text-warm-400 prose-p:leading-[1.9] prose-p:text-[15px]
+              prose-li:text-warm-600 dark:prose-li:text-warm-400
+              prose-h2:text-warm-800 dark:prose-h2:text-warm-200 prose-h3:text-warm-700 dark:prose-h3:text-warm-300
+            ">
+              <Content />
+            </div>
+          </div>
+
+          {/* Related posts */}
+          <div class="mt-10">
+            <RelatedPosts currentSlug={post.slug} posts={relatedData} client:load />
+          </div>
         </div>
       </div>
 
-      {/* Related Posts */}
-      <div class="max-w-4xl mx-auto relative">
-        <div class="lg:pl-56">
-          <RelatedPosts currentSlug={post.slug} posts={relatedData} client:load />
-        </div>
-      </div>
     </div>
   </article>
+
   <EnhanceCodeBlocks />
+
+  <style>
+    /* Background writing objects */
+    .bg-objects {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      color: #94a3b8;
+    }
+    .dark .bg-objects {
+      color: #4a5568;
+    }
+    .bg-obj {
+      position: absolute;
+      will-change: transform;
+      transition: transform 0.1s linear;
+    }
+    .bg-obj-1 { width: 140px; top: 8%; right: 8%; }
+    .bg-obj-2 { width: 180px; top: 35%; left: 3%; }
+    .bg-obj-3 { width: 130px; top: 65%; right: 5%; }
+    .bg-obj-5 { width: 70px; top: 50%; right: 15%; }
+    .bg-obj-6 { width: 110px; bottom: 10%; left: 8%; }
+    .bg-obj-7 { width: 50px; top: 25%; right: 25%; }
+    .bg-obj-10 { width: 130px; top: 18%; left: 45%; }
+
+    /* Detail page entrance animations */
+    .detail-header {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      animation: detailReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+    }
+    .detail-content {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: detailReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+    @keyframes detailReveal {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+
+  {/* Parallax background objects */}
+  <script is:inline>
+    document.addEventListener('astro:page-load', function() {
+      var objs = document.querySelectorAll('.bg-obj');
+      var speeds = [0.03, 0.05, 0.02, 0.06, 0.035, 0.045, 0.025];
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var scrollY = window.scrollY;
+            objs.forEach(function(obj, i) {
+              var speed = speeds[i % speeds.length];
+              var y = scrollY * speed;
+              var rotate = Math.sin(scrollY * 0.002 + i) * 5;
+              obj.style.transform = 'translateY(' + (-y) + 'px) rotate(' + rotate + 'deg)';
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    });
+  </script>
 </BaseLayout>
